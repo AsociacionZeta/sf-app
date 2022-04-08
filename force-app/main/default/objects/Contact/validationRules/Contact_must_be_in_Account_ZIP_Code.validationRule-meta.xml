@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>false</active>
+	<errorConditionFormula>IF(ISBLANK(  AccountId ),false, MailingPostalCode &lt;&gt;  Account.ShippingPostalCode )</errorConditionFormula>
+	<errorMessage>Not equals zip code</errorMessage>
+	<fullName>Contact_must_be_in_Account_ZIP_Code</fullName>
+</ValidationRule>

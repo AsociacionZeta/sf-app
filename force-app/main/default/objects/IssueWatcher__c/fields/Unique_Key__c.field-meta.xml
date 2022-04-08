@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<caseSensitive>false</caseSensitive>
+	<description>Clave única formada por la concatenación entre el Id de la tarea y el Id del contact, de forma que dejemos a la base de datos el control de que no se pueda crear dos veces la misma relacion</description>
+	<externalId>false</externalId>
+	<fullName>Unique_Key__c</fullName>
+	<label>Unique Key</label>
+	<length>255</length>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Text</type>
+	<unique>true</unique>
+</CustomField>

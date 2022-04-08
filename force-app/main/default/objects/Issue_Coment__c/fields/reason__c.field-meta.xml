@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<description>Razón por la que se ha hecho el comentario. Este valor se rellenará de forma automática en función del escenario en el que se introduzca el comentario.</description>
+	<externalId>false</externalId>
+	<fullName>reason__c</fullName>
+	<label>reason</label>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Picklist</type>
+	<valueSet>
+		<restricted>true</restricted>
+		<valueSetDefinition>
+			<sorted>false</sorted>
+			<value><default>false</default><fullName>Cancelled</fullName><label>Cancelled</label></value>
+			<value><default>false</default><fullName>Comment</fullName><label>Comment</label></value>
+			<value><default>false</default><fullName>Resolved</fullName><label>Resolved</label></value>
+		</valueSetDefinition>
+	</valueSet>
+</CustomField>

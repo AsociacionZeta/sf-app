@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>SetNull</deleteConstraint>
+	<description>Tarea padre en caso de que una tarea se divida en tareas más pequeñas o subtareas</description>
+	<externalId>false</externalId>
+	<fullName>ParentIssue__c</fullName>
+	<label>Parent Issue</label>
+	<referenceTo>Issue__c</referenceTo>
+	<relationshipLabel>Issues (Parent Issue)</relationshipLabel>
+	<relationshipName>ChildIssues</relationshipName>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

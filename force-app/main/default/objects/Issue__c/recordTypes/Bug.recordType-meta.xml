@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<fullName>Bug</fullName>
+	<label>Bug</label>
+	<picklistValues>
+		<picklist>Priority__c</picklist>
+		<values><default>false</default><fullName>Alta</fullName></values>
+		<values><default>false</default><fullName>Baja</fullName></values>
+		<values><default>false</default><fullName>Crítica</fullName></values>
+		<values><default>false</default><fullName>Media</fullName></values>
+	</picklistValues>
+	<picklistValues>
+		<picklist>Status__c</picklist>
+		<values><default>false</default><fullName>Blocked</fullName></values>
+		<values><default>false</default><fullName>Cancelled</fullName></values>
+		<values><default>false</default><fullName>In Progress</fullName></values>
+		<values><default>false</default><fullName>Opened</fullName></values>
+		<values><default>false</default><fullName>Pending Deploy</fullName></values>
+		<values><default>false</default><fullName>Pending Test</fullName></values>
+		<values><default>false</default><fullName>Resolved</fullName></values>
+	</picklistValues>
+	<picklistValues>
+		<picklist>Type__c</picklist>
+		<values><default>false</default><fullName>Desarrollo</fullName></values>
+		<values><default>false</default><fullName>Incidencia</fullName></values>
+	</picklistValues>
+</RecordType>

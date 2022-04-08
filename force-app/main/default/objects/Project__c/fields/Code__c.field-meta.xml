@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<caseSensitive>false</caseSensitive>
+	<description>Código del proyecto. Deberá ser único y se usará para identificar cada una de las tareas de un proyecto concreto.</description>
+	<externalId>true</externalId>
+	<fullName>Code__c</fullName>
+	<label>Code</label>
+	<length>255</length>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Text</type>
+	<unique>true</unique>
+</CustomField>

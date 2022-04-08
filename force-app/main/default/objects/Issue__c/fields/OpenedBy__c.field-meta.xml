@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>Restrict</deleteConstraint>
+	<description>Contacto que ha creado la tarea</description>
+	<externalId>false</externalId>
+	<fullName>OpenedBy__c</fullName>
+	<label>Opened By</label>
+	<referenceTo>Contact</referenceTo>
+	<relationshipLabel>Issues (Opened By)</relationshipLabel>
+	<relationshipName>OpenedIssues</relationshipName>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

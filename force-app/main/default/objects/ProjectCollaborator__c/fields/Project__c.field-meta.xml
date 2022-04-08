@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>Restrict</deleteConstraint>
+	<description>Proyecto en el que colabora el contacto</description>
+	<externalId>false</externalId>
+	<fullName>Project__c</fullName>
+	<label>Project</label>
+	<referenceTo>Project__c</referenceTo>
+	<relationshipLabel>Project Collaborators</relationshipLabel>
+	<relationshipName>Project_Collaborators</relationshipName>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<description>Rol que tiene la persona en el proyecto.</description>
+	<externalId>false</externalId>
+	<fullName>Role__c</fullName>
+	<label>Role</label>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Picklist</type>
+	<valueSet>
+		<restricted>true</restricted>
+		<valueSetDefinition>
+			<sorted>false</sorted>
+			<value><default>false</default><fullName>Desarrollador</fullName><label>Desarrollador</label></value>
+			<value><default>false</default><fullName>Investigador</fullName><label>Investigador</label></value>
+		</valueSetDefinition>
+	</valueSet>
+</CustomField>

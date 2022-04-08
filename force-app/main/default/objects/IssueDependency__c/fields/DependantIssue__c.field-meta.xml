@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>Restrict</deleteConstraint>
+	<description>tarea de la que depende</description>
+	<externalId>false</externalId>
+	<fullName>DependantIssue__c</fullName>
+	<label>Dependant Issue</label>
+	<referenceTo>Issue__c</referenceTo>
+	<relationshipLabel>Issue Dependencies (Dependant Issue)</relationshipLabel>
+	<relationshipName>Issue_Dependencies1</relationshipName>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>
