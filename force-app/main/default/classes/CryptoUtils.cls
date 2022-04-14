@@ -80,7 +80,6 @@ public without sharing class CryptoUtils {
 			                                 From StaticResource
 			                                 Where Name = 'PublicKey'
 			                                 Limit 1];
-			//String urlStaticResource = URL.getOrgDomainUrl().toExternalForm() + '/resource/' + String.valueOf(((DateTime)staticResource.get('SystemModStamp')).getTime())+'/PublicKey';
 			fileContent = staticResource.Body.toString().replace('\n', '').removeStart('-----BEGIN PRIVATE KEY-----').remove('-----END PRIVATE KEY-----');
 		} else {
 			fileContent = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq9dFr6SK8jK77GXzxyVF2aGtZa5gw6PGRXm1ddHPP67OGuO5GjubV9KpDEy/gQRfq7lCU2wAhDYRBRz/oauUAWGYGvhReaHDbAAoue6FCBB8zdcxaxxgxZuSY7+Vonty3nsC0jkfGa+1g11J4DzgIkL+ccO2juzcLo6y1sZyofJA5WfdD44Pc/YY9mH6R6uVBpmHaaq6HGtXahf//86tgTfrwEpYXrdswF8GIDnqOu+nvwhIBD8k95dB5WSzYw3hBeeAQXGH59sm+w9+mGBKBZJqiosKau64+hItrXsERT5uq2rDTwIijFfEJmVDVkXaDzhapF4Kgd3TGDzEQFxsLwIDAQAB';
