@@ -1,41 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Contact</members>
-		<members>Issue__c</members>
-		<members>Issue_Coment__c</members>
-		<members>IssueDependency__c</members>
-		<members>IssueWatcher__c</members>
-		<members>Project__c</members>
-		<members>ProjectCollaborator__c</members>
-		<members>Sprint__c</members>
-		<members>User</members>
-		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>Issue__c</members>
-		<members>Issue_Coment__c</members>
-		<members>IssueDependency__c</members>
-		<members>IssueWatcher__c</members>
-		<members>Project__c</members>
-		<members>ProjectCollaborator__c</members>
-		<members>Sprint__c</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>Contact-Contact %28Marketing%29 Layout</members>
-		<members>Contact-Contact %28Sales%29 Layout</members>
-		<members>Contact-Contact %28Support%29 Layout</members>
-		<members>Contact-Contact Layout</members>
-		<members>Issue__c-Issue Layout</members>
-		<members>Issue_Coment__c-Issue Comment Layout</members>
-		<members>IssueDependency__c-Issue Dependency Layout</members>
-		<members>IssueWatcher__c-Issue Watcher Layout</members>
-		<members>Project__c-Proyecto Layout</members>
-		<members>ProjectCollaborator__c-Project Collaborator Layout</members>
-		<members>Sprint__c-Sprint Layout</members>
-		<members>User-User Layout</members>
-		<name>Layout</name>
+		<members>Contact.RequiredUser</members>
+		<name>ValidationRule</name>
 	</types>
 	<version>54.0</version>
 </Package>
