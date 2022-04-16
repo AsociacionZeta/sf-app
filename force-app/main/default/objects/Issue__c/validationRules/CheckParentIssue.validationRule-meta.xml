@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>Valida que el Issue padre e hijo estén en el mismo proyecto.</description>
+	<errorConditionFormula>ParentIssue__c != null &amp;&amp;  ParentIssue__r.Project__c !=  Project__c</errorConditionFormula>
+	<errorDisplayField>ParentIssue__c</errorDisplayField>
+	<errorMessage>Parent Isse and Child Issue must have the same project</errorMessage>
+	<fullName>CheckParentIssue</fullName>
+</ValidationRule>
