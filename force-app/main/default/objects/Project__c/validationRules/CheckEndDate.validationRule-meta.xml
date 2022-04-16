@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>Validar que la fecha de fin sea mayor que la fecha de inicio</description>
+	<errorConditionFormula>EndDate__c  &gt;  StartDate__c</errorConditionFormula>
+	<errorDisplayField>EndDate__c</errorDisplayField>
+	<errorMessage>End Date must be higher than Start Date</errorMessage>
+	<fullName>CheckEndDate</fullName>
+</ValidationRule>
