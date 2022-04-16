@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>Comprueba que el Sprint del proyecto coincida con el Issue del proyecto</description>
+	<errorConditionFormula>Sprint__c != null &amp;&amp;  Sprint__r.Project__c !=  Project__c</errorConditionFormula>
+	<errorDisplayField>Sprint__c</errorDisplayField>
+	<errorMessage>Issue Project and Sprint Project must be the same project</errorMessage>
+	<fullName>CheckProjetSprint</fullName>
+</ValidationRule>
