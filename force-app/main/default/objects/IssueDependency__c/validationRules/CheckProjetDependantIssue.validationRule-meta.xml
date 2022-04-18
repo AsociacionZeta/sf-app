@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>Valida que la Issue Dependency y la Main Issue pertenezcan al mismo proyecto</description>
+	<errorConditionFormula>DependantIssue__r.Project__c !=  MainIssue__r.Project__c</errorConditionFormula>
+	<errorDisplayField>DependantIssue__c</errorDisplayField>
+	<errorMessage>Issue Dependency Description is Required. Please add a description before save</errorMessage>
+	<fullName>CheckProjetDependantIssue</fullName>
+</ValidationRule>

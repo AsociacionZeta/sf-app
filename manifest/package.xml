@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Sprint__c.CheckEndDate</members>
-		<members>Sprint__c.CheckEndDateProJet</members>
-		<members>Sprint__c.RequiredComment</members>
+		<members>Issue_Coment__c.RequiredBody</members>
 		<name>ValidationRule</name>
 	</types>
 	<version>54.0</version>
