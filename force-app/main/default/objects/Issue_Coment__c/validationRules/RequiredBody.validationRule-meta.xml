@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-	<active>true</active>
-	<description>Valida que el campo cuerpo de la tarea este relleno. Es un campo obligatorio</description>
-	<errorConditionFormula>Body__c == null</errorConditionFormula>
-	<errorDisplayField>Body__c</errorDisplayField>
-	<errorMessage>Comment body is required. Please add a body before save.</errorMessage>
-	<fullName>RequiredBody</fullName>
-</ValidationRule>
