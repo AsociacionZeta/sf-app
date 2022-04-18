@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>Validar que el campo Description esté relleno</description>
+	<errorConditionFormula>Description__c == null</errorConditionFormula>
+	<errorDisplayField>Description__c</errorDisplayField>
+	<errorMessage>Issue Dependency Description is Required. Please add a description before save</errorMessage>
+	<fullName>RequiredDescription</fullName>
+</ValidationRule>
