@@ -24,6 +24,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testBeforeInsert() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         TriggerHandler.limitTrigger(Account.sObjectType, 1);
         instance.operationType = TriggerOperation.BEFORE_INSERT;
         instance.newList = new List<SObject>();
@@ -43,6 +44,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testAfterInsert() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.AFTER_INSERT;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
@@ -56,6 +58,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testBeforeUpdate() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.BEFORE_UPDATE;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
@@ -69,6 +72,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testAfterUpdate() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.AFTER_UPDATE;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
@@ -82,6 +86,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testBeforeDelete() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.BEFORE_DELETE;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
@@ -95,6 +100,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testAfterDelete() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.AFTER_DELETE;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
@@ -108,6 +114,7 @@ public with sharing class TriggerHandlerTest {
     @isTest
     public static void testAfterUndelete() {
         TriggerTest instance = new TriggerTest();
+        instance.testMode = true;
         instance.operationType = TriggerOperation.AFTER_UNDELETE;
         instance.newList = new List<SObject>();
         instance.newList.add(acc);
