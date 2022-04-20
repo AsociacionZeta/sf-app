@@ -2,6 +2,18 @@ public virtual class TriggerHandler {
     private static Set<SObjectType> bypassedTriggers = new Set<SObjectType>();
     private static Map<SObjectType, TriggerLimit> limitedTriggers = new Map<SObjectType, TriggerLimit>();
     @TestVisible
+    private boolean testMode {
+        get {
+            if(testMode == null){
+                testMode = false;
+            }
+            return testMode;
+        }
+
+        set;
+    }
+
+    @TestVisible
     private TriggerOperation operationType { get; set; }
 
     @TestVisible
@@ -16,14 +28,14 @@ public virtual class TriggerHandler {
     /**
      * Main triggers method. The only one method to call from triggers to run any trigger
      *
-     * @param sObjectType (SObjectType): Trigger SObject Type 
+     * @param sObjectType (SObjectType): Trigger SObject Type
      */
     public void run(SObjectType sObjectType) {
         if (!shouldBeRun(sObjectType)) {
             return;
         }
         count(sObjectType);
-        if (!Test.isRunningTest()) {
+        if (!testMode) {
             this.operationType = Trigger.operationType;
             this.newMap = Trigger.newMap;
             this.oldMap = Trigger.oldMap;
@@ -80,7 +92,6 @@ public virtual class TriggerHandler {
     /**
      * PRIVATE METHODS FOR TRIGGER HANDLING
      */
-
     /**
      * Method to decide if the trigger should be run or not because limits, bypasses or other reasons
      *
@@ -116,7 +127,6 @@ public virtual class TriggerHandler {
     /**
      * PUBLIC STATIC METHODS FOR TRIGGER HANDLING
      */
-
     /**
      * Method to bypass any trigger at any moment
      *
@@ -181,7 +191,6 @@ public virtual class TriggerHandler {
     /**
      * METHODS TO INHERIT
      */
-
     /**
      * Method to make queries and create data structures on trigger insert operations.
      * This method will be execute always before the beforeInsert method
@@ -195,7 +204,7 @@ public virtual class TriggerHandler {
     /**
      * Method to make queries and create data structures on trigger update operations
      * This method will be execute always before the beforeUpdate method
-     * 
+     *
      * @param newMap (Map<Id, SObject>): New Records Map from trigger
      * @param oldMap (Map<Id, SObject>): Old Records Map from trigger
      */
@@ -206,7 +215,7 @@ public virtual class TriggerHandler {
     /**
      * Method to make queries and create data structures on trigger delete operations
      * This method will be execute always before the beforeDelete method
-     * 
+     *
      * @param oldMap (Map<Id, SObject>): Old Records Map from trigger
      */
     @TestVisible
@@ -216,7 +225,7 @@ public virtual class TriggerHandler {
     /**
      * Method to make queries and create data structures on trigger undelete operations
      * This method will be execute always before the afterUndelete method
-     * 
+     *
      * @param newMap (Map<Id, SObject>): New Records Map from trigger
      */
     @TestVisible
@@ -225,7 +234,7 @@ public virtual class TriggerHandler {
 
     /**
      * Method to handle before insert logic.
-     * This method will be run in loop with all trigger records. 
+     * This method will be run in loop with all trigger records.
      * DML and Queries ARE NOT ALLOWED in this method because run in loop with every trigger record.
      *
      * @param newRecord (SObject): New record from trigger
@@ -260,7 +269,7 @@ public virtual class TriggerHandler {
      * Method to handle after insert logic in bulk cases
      * This methos will be execute after the loop on afterInsert method
      * This method Allow DML and Queries because receive all trigger elements and don't run in loop.
-     * 
+     *
      * @param newMap (Map<Id, SObject>): New records map from trigger
      */
     @TestVisible
