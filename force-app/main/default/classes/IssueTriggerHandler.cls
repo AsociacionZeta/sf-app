@@ -28,8 +28,12 @@ public without sharing class IssueTriggerHandler extends TriggerHandler {
         for (SObject newRecord : newMap.values()) {
             acn__Issue__c newIssue = (acn__Issue__c) newRecord;
             acn__Issue__c oldIssue = (acn__Issue__c) oldMap.get(newIssue.Id);
-            projectIds.add(newIssue.acn__Project__c);
-            projectIds.add(oldIssue.acn__Project__c);
+            if (!projectMap.containsKey(newIssue.acn__Project__c)) {
+                projectIds.add(newIssue.acn__Project__c);
+            }
+            if (!projectMap.containsKey(oldIssue.acn__Project__c)) {
+                projectIds.add(oldIssue.acn__Project__c);
+            }
         }
         getProjectData(projectIds);
     }
