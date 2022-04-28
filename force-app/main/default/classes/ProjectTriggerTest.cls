@@ -18,7 +18,7 @@ public with sharing class ProjectTriggerTest{
 
         Account account = TestDataFactory.createAccount('Test Account');
         insert account;
-        Contact contact = TestDataFactory.createContact('Test Contact', account.Id, userInfo.getUserId());
+        contact = TestDataFactory.createContact('Test Contact', account.Id, userInfo.getUserId());
         insert contact;
     }
 
