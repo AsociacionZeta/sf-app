@@ -19,9 +19,7 @@ public without sharing class ProjectCollaboratorTriggerHandler extends TriggerHa
     public override void beforeUpdate(SObject newRecord, SObject oldRecord){
         acn__ProjectCollaborator__c newProjectCollaborator = (acn__ProjectCollaborator__c) newRecord;
         acn__ProjectCollaborator__c oldProjectCollaborator = (acn__ProjectCollaborator__c) oldRecord;
-        if (newProjectCollaborator.acn__Project__c != oldProjectCollaborator.acn__Project__c || newProjectCollaborator.acn__Contact__c != oldProjectCollaborator.acn__Contact__c){
-            ProjectCollaboratorTriggerHelper.setUniqueKey(newProjectCollaborator);
-        }
+        ProjectCollaboratorTriggerHelper.setUniqueKey(newProjectCollaborator);
     }
 
 }
