@@ -27,4 +27,18 @@ public with sharing class TestDataFactory {
         return newProject;
     }
 
+    public static acn__Issue__c createIssue(String name, Id contactId, Id projectId ){
+        acn__Issue__c newIssue = new acn__Issue__c ();
+        newIssue.acn__Headline__c = name;
+        newIssue.acn__AssignedTo__c = contactId;
+        newIssue.acn__Project__c = projectId;
+        newIssue.acn__Status__c = 'Opened';
+        newIssue.acn__StartDate__c = system.today();
+        newIssue.acn__EstimatedTime__c = 10;
+        newIssue.acn__OpenedBy__c = contactId;
+        newIssue.acn__Description__c = 'Test Description';
+        return newIssue;
+    }
+    
+
 }
