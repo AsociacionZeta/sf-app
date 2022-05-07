@@ -39,6 +39,14 @@ public with sharing class TestDataFactory {
         newIssue.acn__Description__c = 'Test Description';
         return newIssue;
     }
+
+    public static acn__ProjectCollaborator__c createProjectCollaborator(Id contactId, Id projectId){
+        acn__ProjectCollaborator__c newProjectColaborator = new acn__ProjectCollaborator__c();
+        newProjectColaborator.acn__Contact__c = contactId;
+        newProjectColaborator.acn__Project__c = projectId;
+        newProjectColaborator.acn__Role__c = 'Desarrollador';
+        return newProjectColaborator;
+    }
     
 
 }
