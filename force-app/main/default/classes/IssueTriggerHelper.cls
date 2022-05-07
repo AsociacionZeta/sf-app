@@ -22,4 +22,12 @@ public with sharing class IssueTriggerHelper {
         return (project.acn__IssuesCount__c != null) ? project.acn__IssuesCount__c.intValue() : 0;
     }
 
+    public static void validateIssueAssigment(acn__Issue__c newIssue, Set<Id> projectCollaboratorsContactIds){
+        if(projectCollaboratorsContactIds == null || projectCollaboratorsContactIds.size() == 0 ){
+            newIssue.addError(Label.IssueContactAssignError);
+        } else if (!projectCollaboratorsContactIds.contains(newIssue.acn__AssignedTo__c)){
+            newIssue.addError(Label.IssueContactAssignError);
+        }
+     }
+
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	<labels><categories>Error</categories><fullName>IssueContactAssignError</fullName><language>en_US</language><protected>false</protected><shortDescription>Label para mostrar un error en caso de asignar una issue a un usuario incorrecto</shortDescription><value>You cannot assign issues to people who do not belong to the project</value></labels>
+</CustomLabels>
