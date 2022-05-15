@@ -30,15 +30,15 @@ Control de cada una de las tareas, quién la tiene asignada, quien la ha creado,
 	<actionOverrides><actionName>Delete</actionName><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>Delete</actionName><formFactor>Large</formFactor><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>Delete</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>
+	<actionOverrides><actionName>Edit</actionName><content>NewIssueComponent</content><formFactor>Large</formFactor><skipRecordTypeSelect>false</skipRecordTypeSelect><type>LightningComponent</type></actionOverrides>
+	<actionOverrides><actionName>Edit</actionName><content>NewIssueComponent</content><formFactor>Small</formFactor><skipRecordTypeSelect>false</skipRecordTypeSelect><type>LightningComponent</type></actionOverrides>
 	<actionOverrides><actionName>Edit</actionName><type>Default</type></actionOverrides>
-	<actionOverrides><actionName>Edit</actionName><formFactor>Large</formFactor><type>Default</type></actionOverrides>
-	<actionOverrides><actionName>Edit</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>List</actionName><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>List</actionName><formFactor>Large</formFactor><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>List</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>
+	<actionOverrides><actionName>New</actionName><content>NewIssueComponent</content><formFactor>Large</formFactor><skipRecordTypeSelect>true</skipRecordTypeSelect><type>LightningComponent</type></actionOverrides>
+	<actionOverrides><actionName>New</actionName><content>NewIssueComponent</content><formFactor>Small</formFactor><skipRecordTypeSelect>true</skipRecordTypeSelect><type>LightningComponent</type></actionOverrides>
 	<actionOverrides><actionName>New</actionName><type>Default</type></actionOverrides>
-	<actionOverrides><actionName>New</actionName><formFactor>Large</formFactor><type>Default</type></actionOverrides>
-	<actionOverrides><actionName>New</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>SaveEdit</actionName><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>SaveEdit</actionName><formFactor>Large</formFactor><type>Default</type></actionOverrides>
 	<actionOverrides><actionName>SaveEdit</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>

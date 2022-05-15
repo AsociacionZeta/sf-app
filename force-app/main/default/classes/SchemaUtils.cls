@@ -76,7 +76,7 @@ public with sharing class SchemaUtils {
     public static List<Object> getPicklistValuesDataLT(String objectApiName, String fieldApiName) {
         try {
             Schema.sObjectType sObjType = Schema.getGlobalDescribe().get(objectApiName);
-            List<Object> values = new List< Object>();
+            List<Object> values = new List<Object>();
             Schema.SObjectField sObjectField = getSObjectField(sObjType, fieldApiName);
             Schema.DescribeFieldResult fieldDescribe = sObjectField.getDescribe();
             List<Schema.PicklistEntry> picklistValues = fieldDescribe.getPicklistValues();
@@ -156,8 +156,7 @@ public with sharing class SchemaUtils {
     public static SObjectDescribe describeSObjectLT(String objectApiName) {
         try {
             SObjectDescribe describe = new SObjectDescribe();
-            Schema.SObjectType objectSchema = Schema.getGlobalDescribe().get(objectApiName);
-            Schema.DescribeSObjectResult describeSObject = objectSchema.getDescribe();
+            Schema.DescribeSObjectResult describeSObject = describeSObject(objectApiName);
             mapSObjectDescribeData(describe, describeSObject);
             Map<String, Schema.SObjectField> fieldsMap = describeSObject.fields.getMap();
             mapSObjectFieldsDescribeData(describe, fieldsMap);
@@ -169,6 +168,26 @@ public with sharing class SchemaUtils {
         } catch (Exception e) {
             throw AuraUtils.AuraException('describeSObject', e, null);
         }
+    }
+
+    @AuraEnabled
+    public static Map<String, RecordTypeDescribe> describeRecordTypesLT(String objectApiName) {
+        try {
+            SObjectDescribe describe = new SObjectDescribe();
+            Schema.SObjectType objectSchema = Schema.getGlobalDescribe().get(objectApiName);
+            Schema.DescribeSObjectResult describeSObject = objectSchema.getDescribe();
+            List<Schema.RecordTypeInfo> recordTypes = describeSObject.getRecordTypeInfos();
+            mapSObjectRecordTypesDescribeData(describe, recordTypes);
+            return describe.recordTypeInfos;
+        } catch (Exception e) {
+            throw AuraUtils.AuraException('describeRecordTypes', e, null);
+        }
+    }
+
+    public static Schema.DescribeSObjectResult describeSObject(String objectApiName) {
+        SObjectDescribe describe = new SObjectDescribe();
+        Schema.SObjectType objectSchema = Schema.getGlobalDescribe().get(objectApiName);
+        return objectSchema.getDescribe();
     }
 
     private static void mapSObjectDescribeData(SObjectDescribe result, Schema.DescribeSObjectResult describeSObject) {
@@ -266,233 +285,4 @@ public with sharing class SchemaUtils {
         }
     }
 
-    public class SObjectDescribe {
-        @AuraEnabled
-        public String apiName { get; set; }
-
-        @AuraEnabled
-        public String associateEntityType { get; set; }
-
-        @AuraEnabled
-        public String associateParentEntity { get; set; }
-
-        @AuraEnabled
-        public List<ChildRelationshipDescribe> childRelationships { get; set; }
-
-        @AuraEnabled
-        public Boolean createable { get; set; }
-
-        @AuraEnabled
-        public Boolean custom { get; set; }
-
-        @AuraEnabled
-        public String defaultRecordTypeId { get; set; }
-
-        @AuraEnabled
-        public Boolean deletable { get; set; }
-
-        @AuraEnabled
-        public Map<String, Object> dependentFields { get; set; }
-
-        @AuraEnabled
-        public Boolean feedEnabled { get; set; }
-
-        @AuraEnabled
-        public Map<String, SObjectFieldDescribe> fields { get; set; }
-
-        @AuraEnabled
-        public String keyPrefix { get; set; }
-
-        @AuraEnabled
-        public String label { get; set; }
-
-        @AuraEnabled
-        public String labelPlural { get; set; }
-
-        @AuraEnabled
-        public Boolean layoutable { get; set; }
-
-        @AuraEnabled
-        public Boolean mruEnabled { get; set; }
-
-        @AuraEnabled
-        public List<String> nameFields { get; set; }
-
-        @AuraEnabled
-        public Boolean queryable { get; set; }
-
-        @AuraEnabled
-        public Map<String, RecordTypeDescribe> recordTypeInfos { get; set; }
-
-        @AuraEnabled
-        public Boolean searchable { get; set; }
-
-        @AuraEnabled
-        public SObjectThemeInfo themeInfo { get; set; }
-
-        @AuraEnabled
-        public Boolean updateable { get; set; }
-    }
-
-    public class SObjectFieldDescribe {
-        @AuraEnabled
-        public String apiName { get; set; }
-
-        @AuraEnabled
-        public Boolean calculated { get; set; }
-
-        @AuraEnabled
-        public Boolean compound { get; set; }
-
-        @AuraEnabled
-        public String compoundComponentName { get; set; }
-
-        @AuraEnabled
-        public String compoundFieldName { get; set; }
-
-        @AuraEnabled
-        public String controllerName { get; set; }
-
-        @AuraEnabled
-        public List<String> controllingFields { get; set; }
-
-        @AuraEnabled
-        public Boolean createable { get; set; }
-
-        @AuraEnabled
-        public Boolean custom { get; set; }
-
-        @AuraEnabled
-        public String dataType { get; set; }
-
-        @AuraEnabled
-        public String extraTypeInfo { get; set; }
-
-        @AuraEnabled
-        public Boolean filterable { get; set; }
-
-        @AuraEnabled
-        public SObjectFieldLookupDescribe filteredLookupInfo { get; set; }
-
-        @AuraEnabled
-        public Boolean highScaleNumber { get; set; }
-
-        @AuraEnabled
-        public Boolean htmlFormatted { get; set; }
-
-        @AuraEnabled
-        public String inlineHelpText { get; set; }
-
-        @AuraEnabled
-        public String label { get; set; }
-
-        @AuraEnabled
-        public Integer length { get; set; }
-
-        @AuraEnabled
-        public Boolean nameField { get; set; }
-
-        @AuraEnabled
-        public Boolean polymorphicForeignKey { get; set; }
-
-        @AuraEnabled
-        public Integer precision { get; set; }
-
-        @AuraEnabled
-        public Boolean reference { get; set; }
-
-        @AuraEnabled
-        public String referenceTargetField { get; set; }
-
-        @AuraEnabled
-        public List<SObjectFieldReferenceToDescribe> referenceToInfos { get; set; }
-
-        @AuraEnabled
-        public String relationshipName { get; set; }
-
-        @AuraEnabled
-        public Boolean required { get; set; }
-
-        @AuraEnabled
-        public Boolean searchPrefilterable { get; set; }
-
-        @AuraEnabled
-        public Integer scale { get; set; }
-
-        @AuraEnabled
-        public Boolean sortable { get; set; }
-
-        @AuraEnabled
-        public Boolean unique { get; set; }
-
-        @AuraEnabled
-        public Boolean updateable { get; set; }
-    }
-
-    public class SObjectFieldLookupDescribe {
-        @AuraEnabled
-        public List<String> controllingFields { get; set; }
-
-        @AuraEnabled
-        public Boolean dependent { get; set; }
-
-        @AuraEnabled
-        public Boolean optionalFilter { get; set; }
-    }
-
-    public class SObjectFieldReferenceToDescribe {
-        @AuraEnabled
-        public String apiName { get; set; }
-
-        @AuraEnabled
-        public List<String> nameFields { get; set; }
-    }
-
-    public class RecordTypeDescribe {
-        @AuraEnabled
-        public Boolean available { get; set; }
-
-        @AuraEnabled
-        public Boolean active { get; set; }
-
-        @AuraEnabled
-        public Boolean defaultRecordTypeMapping { get; set; }
-
-        @AuraEnabled
-        public Boolean master { get; set; }
-
-        @AuraEnabled
-        public String name { get; set; }
-
-        @AuraEnabled
-        public String devName { get; set; }
-
-        @AuraEnabled
-        public String recordTypeId { get; set; }
-    }
-
-    public class ChildRelationshipDescribe {
-        @AuraEnabled
-        public String childObjectApiName { get; set; }
-
-        @AuraEnabled
-        public String fieldName { get; set; }
-
-        @AuraEnabled
-        public List<String> junctionIdListNames { get; set; }
-
-        @AuraEnabled
-        public List<String> junctionReferenceTo { get; set; }
-
-        @AuraEnabled
-        public String relationshipName { get; set; }
-    }
-
-    public class SObjectThemeInfo {
-        @AuraEnabled
-        public String color { get; set; }
-
-        @AuraEnabled
-        public String iconUrl { get; set; }
-    }
 }

@@ -19,7 +19,7 @@ export default class ErrorManager  {
      * 
      * @returns {Object} Return the unified error object.
      */
-    static getError(error){
+     static getError(error){
         let result = {
             name: undefined,
             message: undefined,
@@ -27,11 +27,11 @@ export default class ErrorManager  {
             type: undefined,
             stack: undefined
         };
-        if(error.body && error.body.message && error.body.message.indexOf('from') != -1){
+        if(error.body && error.body.message && error.body.message.indexOf('from') != -1 && error.body.message.indexOf('Apex') != -1){
             result = JSON.parse(error.body.message);
         } else {
             result.name = error.name;
-            result.message = error.message;
+            result.message = error.message || error.body.message;
             result.data = undefined;
             result.stack = error.stack;
             result.type = 'JS';

@@ -22,8 +22,8 @@
                                  class="slds-pill-container pillContainer">
                                 <span class="slds-pill slds-pill_link pill">
                                     <span class="slds-pill__icon_container">
-                                        <lightning-icon icon-name={iconName}
-                                                        alternative-text={objectApiName}></lightning-icon>
+                                        <lightning-icon icon-name={selectedIconName}
+                                                        alternative-text={selectedIconText}></lightning-icon>
                                     </span>
                                     <a onclick={handleClickPill}
                                        class="slds-pill__action slds-button_neutral"
@@ -63,7 +63,7 @@
                          class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
                          role="listbox">
                         <template if:true={noValues}>
-                            <label class="slds-form-element__label slds-m-left_medium slds-m-bottom_x-small">No hay valores para mostrar</label>
+                            <label class="slds-form-element__label slds-m-left_medium slds-m-bottom_x-small">{labels.NoValues}</label>
                         </template>
                         <template if:false={noValues}>
                             <template if:true={allowSelectAll}>
@@ -72,9 +72,9 @@
                                       onclick={onSelectAll}>
                                     <lightning-icon class="slds-icon slds-icon--small slds-icon-text-default"
                                                     icon-name="utility:multi_select_checkbox"
-                                                    alternative-text="Seleccionar todos"
+                                                    alternative-text={labels.SelectAll}
                                                     size="small"></lightning-icon>
-                                    <span class="slds-truncate">Seleccionar Todos</span>
+                                    <span class="slds-truncate">{labels.SelectAll}</span>
                                 </span>
                             </template>
                             <label class="slds-form-element__label slds-m-left_medium slds-m-bottom_x-small">{valuesText}</label>
@@ -90,8 +90,8 @@
                                         <span class="slds-lookup__item-action slds-lookup__item-action--label"
                                               role="option">
                                             <lightning-icon class="slds-icon slds-icon--small slds-icon-text-default"
-                                                            icon-name={iconName}
-                                                            alternative-text={objName}
+                                                            icon-name={val.iconName}
+                                                            alternative-text={val.altText}
                                                             size="small"></lightning-icon>
                                             <span class="slds-truncate">{val.label}</span>
                                         </span>

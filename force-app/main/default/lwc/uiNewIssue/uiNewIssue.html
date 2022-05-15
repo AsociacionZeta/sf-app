@@ -1,0 +1,151 @@
+<template>
+    <section role="dialog"
+             tabindex="-1"
+             aria-modal="true"
+             aria-labelledby="modal-heading-01"
+             class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <c-ui-quick-action-header name="header"
+                                      title={title}
+                                      resize={resizable}
+                                      onresize={handleResize}></c-ui-quick-action-header>
+            <div class="slds-modal__content slds-var-p-around_medium">
+                <template if:true={loading}>
+                    <c-ui-spinner title={loadingTitle}
+                                  message={loadingMessage}></c-ui-spinner>
+                </template>
+                <template if:false={loading}>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" padding="horizontal-small">
+                            <lightning-input name={issueFields.Headline}
+                                             data-name={issueFields.Headline}
+                                             type="text"
+                                             value={record.fields.acn__Headline__c}
+                                             label={labels.Headline}
+                                             onchange={handleChange}
+                                             required="true"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-small">
+                            <lightning-textarea name={issueFields.Description}
+                                                data-name={issueFields.Description}
+                                                label={labels.Description}
+                                                value={record.fields.acn__Description__c}
+                                                onchange={handleChange}
+                                                required="true"></lightning-textarea>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-small">
+                            <c-ui-lookup-input name={issueFields.Project}
+                                               data-name={issueFields.Project}
+                                               object-api-name={projectLookup.obj}
+                                               icon-name={projectLookup.iconName}
+                                               where-conditions={projectLookup.where}
+                                               fields={projectLookup.fields}
+                                               required="true"
+                                               message-when-value-missing={labels.RequiredProjectError}
+                                               label={labels.Project}
+                                               record-id={record.fields.acn__Project__c}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <c-ui-search-input name={issueFields.RecordTypeId}
+                                               data-name={issueFields.RecordTypeId}
+                                               label={labels.RecordType}
+                                               value={record.fields.RecordTypeId}
+                                               values={recordTypeOptions}
+                                               required="true"
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-search-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <c-ui-search-input name={issueFields.Priority}
+                                               data-name={issueFields.Priority}
+                                               label={labels.Priority}
+                                               value={record.fields.acn__Priority__c}
+                                               values={priorityOptions}
+                                               required="true"
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-search-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <lightning-input name={issueFields.StartDate}
+                                             data-name={issueFields.StartDate}
+                                             type="date"
+                                             value={record.fields.acn__StartDate__c}
+                                             label={labels.StartDate}
+                                             onchange={handleChange}
+                                             required="true"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <lightning-input name={issueFields.EstimatedTime}
+                                             data-name={issueFields.EstimatedTime}
+                                             type="text"
+                                             message-when-value-missing={labels.RequiredEstimatedTimeError}
+                                             value={record.fields.acn__EstimatedTime__c}
+                                             label={labels.EstimatedTime}
+                                             onchange={handleChange}
+                                             required="true"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="9" padding="horizontal-small">
+                            <c-ui-lookup-input name={issueFields.AssignedTo}
+                                               data-name={issueFields.AssignedTo}
+                                               object-api-name={assignedToLookup.obj}
+                                               icon-name={assignedToLookup.iconName}
+                                               where-conditions={assignedToLookup.where}
+                                               fields={assignedToLookup.fields}
+                                               required="true"
+                                               message-when-value-missing={labels.RequiredAssignedToError}
+                                               label={labels.AssignedTo}
+                                               record-id={record.fields.acn__AssignedTo__c}
+                                               onselect={handleSelect}
+                                               read-only={assignToDisabled}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" class="slds-p-top_large" padding="horizontal-small">
+                            <lightning-button name={assignToMeBtn.name}
+                                              data-name={assignToMeBtn.name}
+                                              variant={assignToMeBtn.variant}
+                                              label={assignToMeBtn.label}
+                                              title={assignToMeBtn.title}
+                                              onclick={handleClick}
+                                              disabled={assignToDisabled}></lightning-button>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <c-ui-lookup-input name={issueFields.ParentIssue}
+                                               data-name={issueFields.ParentIssue}
+                                               object-api-name={parentIssueLookup.obj}
+                                               icon-name={parentIssueLookup.iconName}
+                                               where-conditions={parentIssueLookup.where}
+                                               fields={parentIssueLookup.fields}
+                                               label={labels.ParentIssue}
+                                               record-id={record.fields.acn__ParentIssue__c}
+                                               read-only={parentIssueDisabled}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-small">
+                            <c-ui-lookup-input name={issueFields.Sprint}
+                                               data-name={issueFields.Sprint}
+                                               object-api-name={sprintLookup.obj}
+                                               icon-name={sprintLookup.iconName}
+                                               where-conditions={sprintLookup.where}
+                                               fields={sprintLookup.fields}
+                                               label={labels.Sprint}
+                                               record-id={record.fields.acn__Sprint__c}
+                                               read-only={sprintDisabled}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </div>
+            <c-ui-quick-action-footer name="footer"
+                                      data-name="footer"
+                                      buttons={buttons}
+                                      onbuttonclick={handleClick}>
+            </c-ui-quick-action-footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"
+         role="presentation"></div>
+</template>

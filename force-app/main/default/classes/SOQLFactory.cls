@@ -1,33 +1,4 @@
 public without sharing class SOQLFactory {
-    public class WhereCondition {
-		@AuraEnabled
-		public String field { get; set; }
-
-		@AuraEnabled
-		public String operator { get; set; }
-
-		@AuraEnabled
-		public Object value { get; set; }
-	}
-
-	public class OrderBy {
-		@AuraEnabled
-		public List<String> fields { get; set; }
-
-		@AuraEnabled
-		public String order { get; set; }
-	}
-
-	public class GroupBy {
-		@AuraEnabled
-		public List<String> fields { get; set; }
-
-		@AuraEnabled
-		public List<WhereCondition> havingCoditions { get; set; }
-
-		@AuraEnabled
-		public String customLogic { get; set; }
-	}
 
 	@AuraEnabled(cacheable = true)
 	public static List<SObject> cachedQuery(String objectApiName, List<String> fields, List<WhereCondition> whereConditions, String customLogic, GroupBy groupBy, OrderBy orderBy, Integer queryLimit) {

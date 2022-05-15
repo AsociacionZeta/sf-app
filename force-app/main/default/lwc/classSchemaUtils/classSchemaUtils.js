@@ -1,9 +1,11 @@
 import { LightningElement } from 'lwc';
 import getSObjectInfo from '@salesforce/apex/SchemaUtils.describeSObjectLT';
+import getRecordTypesInfo from '@salesforce/apex/SchemaUtils.describeRecordTypesLT';
 import getSObjectTypeFromId from '@salesforce/apex/SchemaUtils.getSObjectTypeFromIdLT';
 import getAllPicklistValues from '@salesforce/apex/SchemaUtils.getPicklistValuesDataLT';
 import getDependantPicklistValuesMap from '@salesforce/apex/SchemaUtils.getDependentPicklistValuesMapLT';
 import getKeyPrefix from '@salesforce/apex/SchemaUtils.getKeyPrefixLT';
+import StrUtils from 'c/classStrUtils';
 
 /**
  * Class with methods to handle all about SObject Schema like describe SObjects, get picklist values, get object name from ids...
@@ -19,6 +21,23 @@ export default class SchemaUtils extends LightningElement {
      */
     static describeSObject(objectApiName){
         return getSObjectInfo({objectApiName: objectApiName});
+    }
+
+    static describeRecordTypes(objectApiName){
+        return getRecordTypesInfo({objectApiName: objectApiName});
+    }
+
+    static getSObjectFieldValue(record, fieldName){
+        const fields = fieldName.split('.');
+        let parent = record;
+        for(const field of fields){
+            if(parent.fields && parent.fields[field]){
+                parent = parent.fields[field];
+            } else if(parent[field]){
+                parent = parent[field];
+            }
+        }
+        return parent;
     }
 
     /**
