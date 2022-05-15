@@ -278,6 +278,7 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                 this.title = LABELS.NewIssue;
                 this.record.fields[ISSUE_FIELDS.OpenedBy] = this.userContactId;
                 this.record.fields[ISSUE_FIELDS.Status] = 'Opened';
+                this.record.fields[ISSUE_FIELDS.StartDate] = new Date().toISOString().split('T')[0];
                 this.loading = false;
             }
             if (!this.record.fields[ISSUE_FIELDS.Project]) {
@@ -293,6 +294,7 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             this.buttons = [CANCEL_BUTTON];
             ToastManager.showErrorToast(this, LABELS.Error, LABELS.IssueOpenedByError);
         }
+        console.log(this.record);
     }
 
     handleResize(event) {
@@ -393,7 +395,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
     getContextData() {
         console.log(this.name + ' getContextData()');
         const contextData = URLUtils.getContextOfRefData();
-        this.record.fields[ISSUE_FIELDS.StartDate] = new Date().toISOString();
         if (contextData && contextData.attributes) {
             if (contextData.attributes.objectApiName === PROJECT_OBJ.objectApiName) {
                 this.projectId = contextData.attributes.recordId;
