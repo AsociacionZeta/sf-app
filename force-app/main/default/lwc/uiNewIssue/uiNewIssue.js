@@ -39,6 +39,8 @@ import SPRINT_LBL from '@salesforce/label/c.Sprint';
 import ESTIMATED_TIME_LBL from '@salesforce/label/c.EstimatedTime';
 import REQUIRED_ESTIMATED_TIME_ERROR_LBL from '@salesforce/label/c.RequiredEstimatedTimeError';
 import WRONG_ESTIMATED_TIME_FORMAT_ERROR_LBL from '@salesforce/label/c.WrongEstimatedTimeFormatError';
+import STATUS_LBL from '@salesforce/label/c.Status';
+import RESOLUTION_LBL from '@salesforce/label/c.Resolution';
 
 // ISSUE SCHEMA IMPORTS
 import ISSUE_OBJ from '@salesforce/schema/Issue__c';
@@ -111,6 +113,8 @@ const LABELS = {
     EstimatedTime: ESTIMATED_TIME_LBL,
     RequiredEstimatedTimeError: REQUIRED_ESTIMATED_TIME_ERROR_LBL,
     WrongEstimatedTimeFormatError: WRONG_ESTIMATED_TIME_FORMAT_ERROR_LBL,
+    Status: STATUS_LBL,
+    Resolution: RESOLUTION_LBL,
 };
 
 const PROJECT_FIELDS = [
@@ -244,11 +248,15 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
     @track editMode = false;
     @track recordTypeOptions = [];
     @track priorityOptions = [];
+    @track resolutionOptions = [];
+    @track statusOptions = [];
 
     labels = LABELS;
     recordTypes = [];
     priorities = [];
-    
+    resolutions = [];
+    statuses = [];
+
     async connectedCallback() {
         console.log(this.name + ' connectedCallback()');
         this.getContextData();
@@ -259,6 +267,8 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             await this.getRecordTypes();
             await this.getPriorities();
             if (this.editMode) {
+                await this.getStatuses();
+                await this.getResolutions();
                 await this.queryIssue();
                 this.sprintDisabled = false;
                 this.parentIssueDisabled = false;
@@ -297,18 +307,15 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
         const detail = EventManager.getEventDetail(event);
         const dataset = EventManager.getEventDataset(event);
         if (source === 'footer') {
-            console.log(this.record);
             if (detail.button === SAVE_BUTTON.name) {
                 this.loading = true;
                 this.record.fields[ISSUE_FIELDS.EstimatedTime] = DateTimeUtils.durationStringToMinutes(this.record.fields[ISSUE_FIELDS.EstimatedTime]);
-                console.log(this.record);
-                if(this.editMode){
+                if (this.editMode) {
                     this.record = await Database.update(this.record);
                 } else {
                     this.record = await Database.insert(this.record);
                 }
                 this.record = Database.createSObject(ISSUE_OBJ.objectApiName, this.record);
-                console.log(this.record);
                 // NavigationService.goToRecordPage(this, this.record.fields[ISSUE_FIELDS.Id], true);
                 window.history.back();
             } else if (detail.button === CANCEL_BUTTON.name) {
@@ -328,8 +335,8 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
         const dataset = EventManager.getEventDataset(event);
         const fields = Object.values(ISSUE_FIELDS);
         if (fields.includes(source)) {
-            if (detail.record) {
-                this.record.fields[source] = detail.record.Id;
+            if (detail.value.Id) {
+                this.record.fields[source] = detail.value.Id;
                 if (source === ISSUE_FIELDS.Project) {
                     await this.queryProjectCollaborators();
                     this.parentIssueLookup.where = [{
@@ -419,6 +426,9 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             ISSUE_FIELDS.EstimatedTime,
             ISSUE_FIELDS.Priority,
         ];
+        if(this.editMode){
+            requiredFields.push(ISSUE_FIELDS.Status);
+        }
         let valid = true;
         const footer = DOMUtils.queryByDataName(this, 'footer');
         for (const field of requiredFields) {
@@ -428,7 +438,7 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
         }
         if (this.record.fields[ISSUE_FIELDS.EstimatedTime]) {
             const estimatedTime = DOMUtils.queryByDataName(this, ISSUE_FIELDS.EstimatedTime);
-            if(estimatedTime){
+            if (estimatedTime) {
                 if (!Validator.isDuration(this.record.fields[ISSUE_FIELDS.EstimatedTime])) {
                     estimatedTime.setCustomValidity(LABELS.WrongEstimatedTimeFormatError);
                     valid = false;
@@ -438,7 +448,7 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                 estimatedTime.reportValidity();
             }
         }
-        if(footer){
+        if (footer) {
             if (valid) {
                 footer.enableButton(SAVE_BUTTON.name);
             } else {
@@ -539,6 +549,32 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                     label: priority.label,
                     iconName: PRIORITY_ICONS[priority.value],
                     altText: LABELS.Priority,
+                });
+            }
+        }
+    }
+
+    async getResolutions() {
+        console.log(this.name + ' getResolutions()');
+        this.resolutions = await SchemaUtils.getPicklistValues(ISSUE_OBJ.objectApiName, ISSUE_FIELDS.Resolution);
+        for (const resolution of this.resolutions) {
+            if (resolution.active) {
+                this.resolutionOptions.push({
+                    value: resolution.value,
+                    label: resolution.label,
+                });
+            }
+        }
+    }
+
+    async getStatuses() {
+        console.log(this.name + ' getStatuses()');
+        this.statuses = await SchemaUtils.getPicklistValues(ISSUE_OBJ.objectApiName, ISSUE_FIELDS.Status);
+        for (const status of this.statuses) {
+            if (status.active) {
+                this.statusOptions.push({
+                    value: status.value,
+                    label: status.label,
                 });
             }
         }

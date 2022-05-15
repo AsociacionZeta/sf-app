@@ -132,7 +132,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         this.isValueSelected = true;
         this.checkRequired();
         const eventBuilder = EventManager.eventBuilder('select');
-        eventBuilder.addValue('record', recordResult);
+        eventBuilder.addValue('value', recordResult);
         eventBuilder.setSource(this.name);
         EventManager.fire(this, eventBuilder.build());
         if (this.blurTimeout) {

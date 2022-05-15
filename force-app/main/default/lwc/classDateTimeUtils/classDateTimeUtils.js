@@ -4,7 +4,7 @@ const DURATION_UNITS = {
     "Y": 8 * 60 * 365,
     "M": 8 * 60 * 30,
     "W": 8 * 60 * 7,
-    "d": 8 * 60,
+    "D": 8 * 60,
     "h": 60,
     "m": 1
 }
@@ -34,6 +34,7 @@ export default class DateTimeUtils {
         const splits = duration.split(' ');
         const units = Object.keys(DURATION_UNITS);
         let minutes = 0;
+        console.log(splits);
         for(const split of splits){
             for(const unit of units){
                 if(StrUtils.contains(split, unit)){

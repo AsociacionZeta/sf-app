@@ -16,7 +16,8 @@
                 </template>
                 <template if:false={loading}>
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item size="12" padding="horizontal-small">
+                        <lightning-layout-item size="12"
+                                               padding="horizontal-small">
                             <lightning-input name={issueFields.Headline}
                                              data-name={issueFields.Headline}
                                              type="text"
@@ -25,7 +26,8 @@
                                              onchange={handleChange}
                                              required="true"></lightning-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="12" padding="horizontal-small">
+                        <lightning-layout-item size="12"
+                                               padding="horizontal-small">
                             <lightning-textarea name={issueFields.Description}
                                                 data-name={issueFields.Description}
                                                 label={labels.Description}
@@ -33,7 +35,8 @@
                                                 onchange={handleChange}
                                                 required="true"></lightning-textarea>
                         </lightning-layout-item>
-                        <lightning-layout-item size="12" padding="horizontal-small">
+                        <lightning-layout-item size="12"
+                                               padding="horizontal-small">
                             <c-ui-lookup-input name={issueFields.Project}
                                                data-name={issueFields.Project}
                                                object-api-name={projectLookup.obj}
@@ -47,7 +50,8 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-lookup-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <c-ui-search-input name={issueFields.RecordTypeId}
                                                data-name={issueFields.RecordTypeId}
                                                label={labels.RecordType}
@@ -57,7 +61,8 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-search-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <c-ui-search-input name={issueFields.Priority}
                                                data-name={issueFields.Priority}
                                                label={labels.Priority}
@@ -67,7 +72,8 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-search-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <lightning-input name={issueFields.StartDate}
                                              data-name={issueFields.StartDate}
                                              type="date"
@@ -76,7 +82,8 @@
                                              onchange={handleChange}
                                              required="true"></lightning-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <lightning-input name={issueFields.EstimatedTime}
                                              data-name={issueFields.EstimatedTime}
                                              type="text"
@@ -86,7 +93,8 @@
                                              onchange={handleChange}
                                              required="true"></lightning-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="9" padding="horizontal-small">
+                        <lightning-layout-item size="9"
+                                               padding="horizontal-small">
                             <c-ui-lookup-input name={issueFields.AssignedTo}
                                                data-name={issueFields.AssignedTo}
                                                object-api-name={assignedToLookup.obj}
@@ -101,7 +109,9 @@
                                                read-only={assignToDisabled}
                                                onremove={handleRemove}></c-ui-lookup-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="3" class="slds-p-top_large" padding="horizontal-small">
+                        <lightning-layout-item size="3"
+                                               class="slds-p-top_large"
+                                               padding="horizontal-small">
                             <lightning-button name={assignToMeBtn.name}
                                               data-name={assignToMeBtn.name}
                                               variant={assignToMeBtn.variant}
@@ -110,7 +120,8 @@
                                               onclick={handleClick}
                                               disabled={assignToDisabled}></lightning-button>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <c-ui-lookup-input name={issueFields.ParentIssue}
                                                data-name={issueFields.ParentIssue}
                                                object-api-name={parentIssueLookup.obj}
@@ -123,7 +134,8 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-lookup-input>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6" padding="horizontal-small">
+                        <lightning-layout-item size="6"
+                                               padding="horizontal-small">
                             <c-ui-lookup-input name={issueFields.Sprint}
                                                data-name={issueFields.Sprint}
                                                object-api-name={sprintLookup.obj}
@@ -136,6 +148,29 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-lookup-input>
                         </lightning-layout-item>
+                        <template if:true={editMode}>
+                            <lightning-layout-item size="6"
+                                                   padding="horizontal-small">
+                                <c-ui-search-input name={issueFields.Status}
+                                                   data-name={issueFields.Status}
+                                                   label={labels.Status}
+                                                   value={record.fields.acn__Status__c}
+                                                   values={statusOptions}
+                                                   required="true"
+                                                   onselect={handleSelect}
+                                                   onremove={handleRemove}></c-ui-search-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6"
+                                                   padding="horizontal-small">
+                                <c-ui-search-input name={issueFields.Resolution}
+                                                   data-name={issueFields.Resolution}
+                                                   label={labels.Resolution}
+                                                   value={record.fields.acn__Resolution__c}
+                                                   values={resolutionOptions}
+                                                   onselect={handleSelect}
+                                                   onremove={handleRemove}></c-ui-search-input>
+                            </lightning-layout-item>
+                        </template>
                     </lightning-layout>
                 </template>
             </div>
