@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Projet_Manager_UtilityBar</members>
+		<members>ProjectManager</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>ProjectManagerHome</members>
 		<name>FlexiPage</name>
 	</types>
 	<version>54.0</version>
