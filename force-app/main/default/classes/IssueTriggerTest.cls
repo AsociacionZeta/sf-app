@@ -151,11 +151,11 @@ public with sharing class IssueTriggerTest {
         Test.startTest();
         try {
             insert newIssue; 
-            newIssue.acn__Assignedto__c = contact2.Id;
-            update newIssue;
-            System.assert(false, 'Esta linea no debería ejecutarse');
+            newIssue.acn__Assignedto__c = contact2.Id; //Contact2 no pertenece al proyecto y por tanto de deberia actualizarse
+            update newIssue; // debe saltar al catch porque no puede actualizar el campo (el contacto 2 no es valido)
+            System.assert(false, 'Esta linea no debería ejecutarse'); // si llega a esta linea es porque ha actualizado y al estar a "false" el test peta.
         } catch (Exception e) {
-            System.assert(e.getMessage().contains(Label.IssueContactAssignError), e.getMessage());
+            System.assert(e.getMessage().contains(Label.IssueContactAssignError), e.getMessage()); //El aser tiene una condición (contener el mensaje que queremos) Si no es ese mensaje es porque es otro error y saltara el que corresponda.
         }       
         Test.stopTest();
 

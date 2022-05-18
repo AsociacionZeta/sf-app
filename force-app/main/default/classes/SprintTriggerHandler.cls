@@ -28,7 +28,7 @@ public with sharing class SprintTriggerHandler extends TriggerHandler{
         Set<Id> projectIds = new Set<Id>();
         for (SObject newRecord : newMap.values()){
             acn__Sprint__c newSprint = (acn__Sprint__c) newRecord;
-            acn__Sprint__c oldSprint = (acn__Sprint__c) oldMap.get(newSprint.acn__Project__c);
+            acn__Sprint__c oldSprint = (acn__Sprint__c) oldMap.get(newSprint.Id);
             if (!sprintByProjectMap.containsKey(newSprint.acn__Project__c)){
                 projectIds.add(newSprint.acn__Project__c);
             }
@@ -55,7 +55,7 @@ public with sharing class SprintTriggerHandler extends TriggerHandler{
     public void getProjectsSprintsData(Set<Id> projectIds){
         if (projectIds.size() > 0){
             Set<Id> tmpIds = CollectionUtils.mergeSet(projectIds, sprintByProjectMap.keySet());
-            sprintMap = new Map<Id, acn__Sprint__c>([Select id, acn__Status__c
+            sprintMap = new Map<Id, acn__Sprint__c>([Select id, acn__Status__c, acn__Project__c
                                                      from acn__Sprint__c
                                                      where acn__Project__c in:tmpIds]);
 
