@@ -41,7 +41,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
     }
 
     public override void beforeInsert(SObject newRecord){
-        acn__Issue__c newIssue = (acn__Issue__c) newRecord;
+        acn__Issue__c newIssue = (acn__Issue__c) newRecord; //casting (pasamos de un SObject "genérico) al SObject concreto (en este caso el Objeto Issue)
         acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
         IssueTriggerHelper.setIssueName(newIssue, project);
     }

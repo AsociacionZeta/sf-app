@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	<labels><categories>Error</categories><fullName>DuplicatedActiveSprintError</fullName><language>en_US</language><protected>false</protected><shortDescription>Error en caso de haber dos sprints activos para el mismo proyecto</shortDescription><value>A project cannot have two active sprints</value></labels>
 	<labels><categories>Text</categories><fullName>Accept</fullName><language>en_US</language><protected>false</protected><shortDescription>Label Accept</shortDescription><value>Accept</value></labels>
 	<labels><categories>Text</categories><fullName>AssignedTo</fullName><language>en_US</language><protected>false</protected><shortDescription>Label Assigned To</shortDescription><value>Assigned To</value></labels>
 	<labels><categories>Text</categories><fullName>AssignToMe</fullName><language>en_US</language><protected>false</protected><shortDescription>Label Assign to me</shortDescription><value>Assign to me</value></labels>
