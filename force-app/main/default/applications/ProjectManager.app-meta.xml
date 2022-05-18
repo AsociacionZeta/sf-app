@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#066F74</headerColor>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <description>Gestor de Proyectos</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Project Manager</label>
+    <navType>Standard</navType>
+    <tabs>standard-Contact</tabs>
+    <tabs>Project__c</tabs>
+    <tabs>ProjectCollaborator__c</tabs>
+    <tabs>Issue__c</tabs>
+    <tabs>IssueWatcher__c</tabs>
+    <tabs>IssueDependency__c</tabs>
+    <tabs>Sprint__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Projet_Manager_UtilityBar</utilityBar>
+</CustomApplication>

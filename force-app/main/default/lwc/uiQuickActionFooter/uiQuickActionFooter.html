@@ -1,0 +1,20 @@
+<template>
+    <footer class="slds-modal__footer">
+        <template if:true={buttons}>
+            <template for:each={buttons}
+                      for:item="button"
+                      for:index="index">
+                <lightning-button key={button.name}
+                                  data-index={index}
+                                  label={button.label}
+                                  title={button.title}
+                                  data-name={button.name}
+                                  name={button.name}
+                                  variant={button.variant}
+                                  disabled={button.disabled}
+                                  onclick={handleClick}
+                                  class="slds-m-left_x-small"></lightning-button>
+            </template>
+        </template>
+    </footer>
+</template>

@@ -12,11 +12,23 @@ export default class URLUtils {
      */
     static getURLParameters(url) {
         const params = {};
-        const urlParams = new URL(url | window.location.href).searchParams;
+        const urlParams = new URL(url || window.location.href).searchParams;
         urlParams.forEach((value, key) => {
             params[key] = value;
         });
         return params;
+    }
+
+    static getContextOfRefData(url) {
+        const params = this.getURLParameters(url);
+        let context = params.inContextOfRef;
+        if(context){
+            if (context.startsWith("1\.")) {
+                context = context.substring(2);
+            }
+            return JSON.parse(window.atob(context));
+        }
+        return undefined;        
     }
 
     /**

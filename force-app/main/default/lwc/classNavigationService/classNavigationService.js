@@ -54,6 +54,14 @@ export default class NavigationService {
                         }
                     });
                 });
+            } else {
+                cmp[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: recordId,
+                        actionName: 'view',
+                    }
+                });
             }
         }
     }

@@ -1,9 +1,7 @@
-import { LightningElement } from 'lwc';
-
 /**
  * Class to handle all about strings like countn ocurrences, replace, check if contains...
  */
-export default class StrUtils extends LightningElement {
+export default class StrUtils {
 
     /**
      * Method to replace data from a string
@@ -91,5 +89,4 @@ export default class StrUtils extends LightningElement {
         }
         return ws;
     }
-
 }

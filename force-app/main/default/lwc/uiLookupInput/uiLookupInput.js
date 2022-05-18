@@ -3,6 +3,23 @@ import { NavigationMixin } from 'lightning/navigation';
 import Database from 'c/classDatabase';
 import NavigationService from 'c/classNavigationService';
 import EventManager from 'c/classEventManager';
+import SchemaUtils from 'c/classSchemaUtils';
+import StrUtils from 'c/classStrUtils';
+
+// LABELS IMPORT
+import SEARCH_LBL from '@salesforce/label/c.Search';
+import NOT_RECORDS_FOUND_LBL from '@salesforce/label/c.NotRecordsFound';
+import RECORD_FOUND_LBL from '@salesforce/label/c.RecordsFound';
+import RECENTLY_VIEWED_RECORDS_LBL from '@salesforce/label/c.RecentlyViewedRecords';
+
+
+
+const LABELS = {
+    Search: SEARCH_LBL,
+    NotRecordsFound: NOT_RECORDS_FOUND_LBL,
+    RecordsFound: RECORD_FOUND_LBL,
+    RecentlyViewedRecords: RECENTLY_VIEWED_RECORDS_LBL
+};
 
 export default class UiLookupInput extends NavigationMixin(LightningElement) {
     @api objectApiName;
@@ -16,7 +33,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     @api fieldName = 'Name';
     @api messageWhenValueMissing;
     @api searchTerm = undefined;
-    @api placeholder = 'Search...';
+    @api placeholder = LABELS.Search + '...';
     @api limit = 10;
     @api readOnly = false;
     @api clearOnSelect = false;
@@ -39,7 +56,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
             for (const val of value) {
                 result.push({
                     Id: val.Id,
-                    Name: val[this.fieldName]
+                    Name: SchemaUtils.getSObjectFieldValue(val, this.fieldName) 
                 });
             }
         }
@@ -62,7 +79,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         }
     }
 
-    recordsResultLabel = 'No se han encontrado registros';
+    recordsResultLabel = LABELS.NotRecordsFound;
     searchTerm;
     href;
     pillRemoved;
@@ -84,7 +101,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     }
 
     handleClick() {
-        console.log('handleClick');
+        console.log(this.name + ' handleClick()');
         this.elementClicked = true;
         this.searchTerm = undefined;
         this.records = undefined;
@@ -95,13 +112,13 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     }
 
     onBlur() {
-        console.log('onBlur');
+        console.log(this.name + ' onBlur()');
         this.blurTimeout = setTimeout(() => { this.boxClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-has-focus' }, 300);
         this.checkRequired();
     }
 
     onSelect(event) {
-        console.log('onSelect');
+        console.log(this.name + ' onSelect()');
         this._recordId = event.currentTarget.dataset.id;
         this.selectedName = event.currentTarget.dataset.name;
         let recordResult = {};
@@ -115,7 +132,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         this.isValueSelected = true;
         this.checkRequired();
         const eventBuilder = EventManager.eventBuilder('select');
-        eventBuilder.addValue('record', recordResult);
+        eventBuilder.addValue('value', recordResult);
         eventBuilder.setSource(this.name);
         EventManager.fire(this, eventBuilder.build());
         if (this.blurTimeout) {
@@ -131,7 +148,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     }
 
     handleRemovePill() {
-        console.log('handleRemovePill');
+        console.log(this.name + ' handleRemovePill()');
         this.searchTerm = undefined;
         this.isValueSelected = false;
         this._recordId = undefined;
@@ -143,56 +160,69 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
 
     handleClickPill(event) {
         event.stopPropagation();
-        console.log('handleClickPill');
+        console.log(this.name + ' handleClickPill()');
         if (this._recordId) {
             NavigationService.goToRecordPage(this, this._recordId, true);
         }
     }
 
     onChange(event) {
-        console.log('onChange');
+        console.log(this.name + ' onChange()');
         this.searchTerm = event.target.value;
         if (this.searchTerm && this.searchTerm.length >= 3) {
             const queryBuilder = Database.queryBuilder(this.objectApiName, this.fields);
-            queryBuilder.setWhereConditions(this.whereConditions).setCustomLogic(this.customLogic).setLimit(this.limit);
+            queryBuilder.setWhereConditions(this.processWhere(this.whereConditions)).setCustomLogic(this.customLogic).setLimit(this.limit);
             Database.query(queryBuilder).then((records) => {
                 this.error = undefined;
                 this.records = records;
                 this.originalRecords = records;
                 if (this.records.length > 0)
-                    this.recordsResultLabel = 'Registros Encontrados';
+                    this.recordsResultLabel = LABELS.RecordsFound;
                 else
-                    this.recordsResultLabel = 'No se han encontrado registros';
+                    this.recordsResultLabel = LABELS.NotRecordsFound;
             }).catch((error) => {
                 console.log(error);
                 this.error = error;
                 this.records = undefined;
-                this.recordsResultLabel = 'No se han encontrado registros';
+                this.recordsResultLabel = LABELS.NotRecordsFound;
             });
         }
         this.checkRequired();
     }
 
     processWhere(whereConditions) {
-        console.log('processWhere');
+        console.log(this.name + ' processWhere()');
         const resultWhere = [];
+        let searchFound = false;
         for (const where of whereConditions) {
             const newWhere = {
                 field: where.field,
                 operator: where.operator,
                 value: where.value
             }
-            if (newWhere.value !== undefined && newWhere.value.indexOf('{search}') != -1)
+            if (newWhere.value !== undefined && newWhere.value.indexOf('{search}') != -1){
                 newWhere.value = newWhere.value.split('{search}').join(this.searchTerm);
+                searchFound = true;
+            }
             resultWhere.push(newWhere);
         }
-        console.log(resultWhere);
+        if(!searchFound){
+            resultWhere.push({
+                field: this.fieldName,
+                operator: 'like',
+                value: '%' + this.searchTerm + '%'
+            });
+            const whereNumberStr = '' + resultWhere.length;
+            if(this.customLogic && !StrUtils.contains(this.customLogic, whereNumberStr)){
+                this.customLogic = '(' + this.customLogic + ') AND ' + resultWhere.length;
+            }
+        }
         return resultWhere;
     }
 
     checkRequired() {
-        if (this.required) {
-            console.log('checkRequired');
+        console.log(this.name + ' checkRequired()');
+        if (this.required) {            
             const input = this.template.querySelector('[data-id="input"]');
             if (!this.isValueSelected && !this.searchTerm)
                 input.setCustomValidity(this.messageWhenValueMissing);
@@ -203,7 +233,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     }
 
     getRecentlyViewedRecords() {
-        console.log('getRecentlyViewedRecords');
+        console.log(this.name + ' getRecentlyViewedRecords()');
         const resultWhere = [
             {
                 field: 'LastViewedDate',
@@ -241,24 +271,24 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
             this.records = records;
             this.originalRecords = records;
             if (this.records.length > 0)
-                this.recordsResultLabel = 'Registros Vistos Recientemente';
+                this.recordsResultLabel = LABELS.RecentlyViewedRecords;
             else
-                this.recordsResultLabel = 'No se han encontrado registros';
+                this.recordsResultLabel = LABELS.NotRecordsFound;
         }).catch((error) => {
             this.error = error;
             this.records = undefined;
-            this.recordsResultLabel = 'No se han encontrado registros';
+            this.recordsResultLabel = LABELS.NotRecordsFound;
         });
     }
 
     getRecord() {
-        console.log('getRecord');
+        console.log(this.name + ' getRecord()');
         const queryBuilder = Database.queryBuilder(this.objectApiName, this.fields);
-        queryBuilder.addWherecondition('Id', '=', this._recordId);
+        queryBuilder.addWhereCondition('Id', '=', this._recordId);
         Database.query(queryBuilder).then((records) => {
             const record = records[0];
             this._recordId = record.Id;
-            this.selectedName = record.Name;
+            this.selectedName = SchemaUtils.getSObjectFieldValue(record, this.fieldName);
             this.href = '/' + this._recordId;
             this.isValueSelected = true;
             const eventBuilder = EventManager.eventBuilder('select');
@@ -272,7 +302,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         }).catch((error) => {
             this.error = error;
             this.records = undefined;
-            this.recordsResultLabel = 'No se han encontrado registros';
+            this.recordsResultLabel = LABELS.NotRecordsFound;
         });
     }
 }

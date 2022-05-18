@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>VR que obliga a rellenar el tiempo estimado de una tarea</description>
+	<errorConditionFormula>EstimatedTime__c = null || EstimatedTime__c = 0</errorConditionFormula>
+	<errorDisplayField>EstimatedTime__c</errorDisplayField>
+	<errorMessage>Estimated Time is Required. Please add a Estimated Time before save</errorMessage>
+	<fullName>RequiredEstimatedTime</fullName>
+</ValidationRule>
