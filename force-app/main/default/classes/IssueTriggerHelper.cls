@@ -1,5 +1,4 @@
-public with sharing class IssueTriggerHelper {
-    
+public with sharing class IssueTriggerHelper{
     public static void setIssueName(acn__Issue__c newIssue, acn__Project__c project){
         Integer issueNumber = getIssueNumber(project);
         String issueNumberStr = String.valueOf((issueNumber + 1));
@@ -16,18 +15,30 @@ public with sharing class IssueTriggerHelper {
         project.acn__IssuesCount__c = issueNumber - 1;
     }
 
-
-
     private static Integer getIssueNumber(acn__Project__c project){
         return (project.acn__IssuesCount__c != null) ? project.acn__IssuesCount__c.intValue() : 0;
     }
 
     public static void validateIssueAssigment(acn__Issue__c newIssue, Set<Id> projectCollaboratorsContactIds){
-        if(projectCollaboratorsContactIds == null || projectCollaboratorsContactIds.size() == 0 ){
+        if (projectCollaboratorsContactIds == null || projectCollaboratorsContactIds.size() == 0){
             newIssue.addError(Label.IssueContactAssignError);
         } else if (!projectCollaboratorsContactIds.contains(newIssue.acn__AssignedTo__c)){
             newIssue.addError(Label.IssueContactAssignError);
         }
-     }
+    }
 
+    public static void validateIssueOpenedBy(acn__Issue__c newIssue, Set<Id> projectCollaboratorsContactIds){
+        if (projectCollaboratorsContactIds == null || projectCollaboratorsContactIds.size() == 0){
+            newIssue.addError(Label.IssueOpenedByError);
+        } else if (!projectCollaboratorsContactIds.contains(newIssue.acn__OpenedBy__c)){
+            newIssue.addError(Label.IssueOpenedByError);
+        }
+    }
+
+    public static void preventChangeOpenedBy(acn__Issue__c newIssue, acn__Issue__c oldIssue){
+        if (newIssue.acn__OpenedBy__c != oldIssue.acn__OpenedBy__c) {
+            newIssue.addError(Label.IssueChangeOpenedByError);
+        }
+
+    }
 }
