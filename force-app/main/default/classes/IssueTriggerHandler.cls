@@ -43,14 +43,15 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
     public override void beforeInsert(SObject newRecord){
         acn__Issue__c newIssue = (acn__Issue__c) newRecord; //casting (pasamos de un SObject "genérico) al SObject concreto (en este caso el Objeto Issue)
         acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
+        Set<Id> projectCollaboratorContactIds = projectCollaboratorContactIdsByProject.get(newIssue.acn__Project__c);
         IssueTriggerHelper.setIssueName(newIssue, project);
+        IssueTriggerHelper.validateIssueOpenedBy(newIssue, projectCollaboratorContactIds);
+        IssueTriggerHelper.validateIssueAssigment(newIssue, projectCollaboratorContactIds);
     }
 
     public override void afterInsert(SObject newRecord){
         acn__Issue__c newIssue = (acn__Issue__c) newRecord;
-        acn__Project__c project = projectMap.get(newIssue.acn__Project__c);        
-        Set<Id> projectCollaboratorComtactIds = projectCollaboratorContactIdsByProject.get(newIssue.acn__Project__c);
-        IssueTriggerHelper.validateIssueAssigment(newIssue,projectCollaboratorComtactIds);
+        acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
         IssueTriggerHelper.incrementIssueCount(project);
         projectsToUpdate.put(project.Id, project);
     }
@@ -59,12 +60,12 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
         acn__Issue__c newIssue = (acn__Issue__c) newRecord;
         acn__Issue__c oldIssue = (acn__Issue__c) oldRecord;
         acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
-        Set<Id> projectCollaboratorComtactIds = projectCollaboratorContactIdsByProject.get(newIssue.acn__Project__c);
+        Set<Id> projectCollaboratorContactIds = projectCollaboratorContactIdsByProject.get(newIssue.acn__Project__c);
         if (newIssue.acn__Project__c != oldIssue.acn__Project__c){
             IssueTriggerHelper.setIssueName(newIssue, project);
         }
-        IssueTriggerHelper.validateIssueAssigment(newIssue, projectCollaboratorComtactIds);
-        
+        IssueTriggerHelper.preventChangeOpenedBy(newIssue, oldIssue); 
+        IssueTriggerHelper.validateIssueAssigment(newIssue, projectCollaboratorContactIds);
     }
 
     public override void afterUpdate(SObject newRecord, SObject oldRecord){
@@ -96,13 +97,13 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
 
             for (acn__ProjectCollaborator__c projectCollaborator : [Select Id, acn__Project__c, acn__Contact__c
                                                                     from acn__ProjectCollaborator__c
-                                                                    where acn__Project__c in :projectMap.keySet()]){
+                                                                    where acn__Project__c in:projectMap.keySet()]){
                 if (!projectCollaboratorByProject.containsKey(projectCollaborator.acn__Project__c)){
                     projectCollaboratorByProject.put(projectCollaborator.acn__Project__c, new List<acn__ProjectCollaborator__c>());
                 }
                 projectCollaboratorByProject.get(projectCollaborator.acn__Project__c).add(projectCollaborator);
 
-                if(!projectCollaboratorContactIdsByProject.containsKey(projectCollaborator.acn__Project__c)){
+                if (!projectCollaboratorContactIdsByProject.containsKey(projectCollaborator.acn__Project__c)){
                     projectCollaboratorContactIdsByProject.put(projectCollaborator.acn__Project__c, new Set<Id>());
                 }
                 projectCollaboratorContactIdsByProject.get(projectCollaborator.acn__Project__c).add(projectCollaborator.acn__Contact__c);

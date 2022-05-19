@@ -158,8 +158,60 @@ public with sharing class IssueTriggerTest {
             System.assert(e.getMessage().contains(Label.IssueContactAssignError), e.getMessage()); //El aser tiene una condición (contener el mensaje que queremos) Si no es ese mensaje es porque es otro error y saltara el que corresponda.
         }       
         Test.stopTest();
+    }
 
+    @isTest
+    public static void testValidateIssueOpenedByOnInsert(){
 
+        Contact contact2 = TestDataFactory.createContact('Test Contact 2', account.Id, UserInfo.getUserId());
+        insert contact2;
+
+        acn__Issue__c newIssue = new acn__Issue__c();
+        newIssue.acn__AssignedTo__c = contact.Id;
+        newIssue.acn__OpenedBy__c = contact2.Id;
+        newIssue.acn__Headline__c = 'Test Headline';
+        newIssue.acn__EstimatedTime__c = 50;
+        newIssue.acn__StartDate__c = System.today().addDays(1);
+        newIssue.acn__Status__c = 'Opened';
+        newIssue.acn__Project__c = project.Id;
+        newIssue.acn__Description__c = 'Test Issue';
+
+        Test.startTest();
+        try {
+            insert newIssue; 
+            System.assert(false, 'Esta linea no debería ejecutarse');
+        } catch (Exception e) {
+            System.assert(e.getMessage().contains(Label.IssueOpenedByError), e.getMessage());
+        }       
+        Test.stopTest();        
+    }
+
+    @isTest
+    public static void testValidateIssueCangeOpenedByOnUpdate(){
+
+        acn__Issue__c newIssue = new acn__Issue__c();
+        newIssue.acn__AssignedTo__c = contact.Id;
+        newIssue.acn__OpenedBy__c = contact.Id;
+        newIssue.acn__Headline__c = 'Test Headline';
+        newIssue.acn__EstimatedTime__c = 50;
+        newIssue.acn__StartDate__c = System.today().addDays(1);
+        newIssue.acn__Status__c = 'Opened';
+        newIssue.acn__Project__c = project.Id;
+        newIssue.acn__Description__c = 'Test Issue';
+
+        Contact contact2 = TestDataFactory.createContact('Test Contact 2', account.Id, UserInfo.getUserId());
+        insert contact2;
+
+        Test.startTest();
+        try {
+            insert newIssue; 
+            newIssue.acn__OpenedBy__c = contact2.Id; //Contact2 no pertenece al proyecto y por tanto de deberia actualizarse
+            update newIssue; // debe saltar al catch porque no puede actualizar el campo (el contacto 2 no es valido)
+            System.assert(false, 'Esta linea no debería ejecutarse'); // si llega a esta linea es porque ha actualizado y al estar a "false" el test peta.
+        } catch (Exception e) {
+            System.assert(e.getMessage().contains(Label.IssueChangeOpenedByError), e.getMessage()); //El aser tiene una condición (contener el mensaje que queremos) Si no es ese mensaje es porque es otro error y saltara el que corresponda.
+        }       
+        Test.stopTest();
     }
 
 
