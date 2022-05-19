@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<active>true</active>
+	<description>VR para validar que el email de un contacto sea obligatorio</description>
+	<errorConditionFormula>Email = null</errorConditionFormula>
+	<errorDisplayField>Email</errorDisplayField>
+	<errorMessage>Email is required. Please add a contact&apos;s email</errorMessage>
+	<fullName>RequiredEmail</fullName>
+</ValidationRule>
