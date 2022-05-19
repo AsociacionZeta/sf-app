@@ -261,7 +261,7 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
         console.log(this.name + ' connectedCallback()');
         this.getContextData();
         this.editMode = this.recordId !== undefined;
-        this.currentUser = await UserInfo.getUserInfo();
+        this.currentUser = await UserInfo.getCurrentUser();
         await this.queryContactCollaboration();
         if (this.userContactId) {
             await this.getRecordTypes();
