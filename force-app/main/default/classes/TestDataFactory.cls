@@ -13,6 +13,13 @@ public with sharing class TestDataFactory {
         newContact.AccountId = accountId;
         newContact.LastName = lastName;
         newContact.acn__User__c = userId;
+        newContact.Email = 'email@test.com';
+        return newContact;
+    }
+
+    public static Contact createContact(String firstName, String lastName, Id accountId, Id userId) {
+        Contact newContact = createContact(lastName, accountId, userId);
+        newContact.FirstName = firstName;
         return newContact;
     }
 
