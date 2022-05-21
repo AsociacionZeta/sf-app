@@ -52,6 +52,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
     public override void afterInsert(SObject newRecord){
         acn__Issue__c newIssue = (acn__Issue__c) newRecord;
         acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
+        ProjectTriggerHandler.allowModifyIssueCount = true;
         IssueTriggerHelper.incrementIssueCount(project);
         projectsToUpdate.put(project.Id, project);
     }
@@ -74,6 +75,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
         acn__Project__c project = projectMap.get(newIssue.acn__Project__c);
         acn__Project__c oldProject = projectMap.get(oldIssue.acn__Project__c);
         if (newIssue.acn__Project__c != oldIssue.acn__Project__c){
+            ProjectTriggerHandler.allowModifyIssueCount = true;
             IssueTriggerHelper.incrementIssueCount(project);
             IssueTriggerHelper.decrementIssueCount(oldProject);
             projectsToUpdate.put(project.Id, project);
@@ -85,6 +87,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler{
         if (projectsToUpdate.size() > 0){
             update projectsToUpdate.values();
             projectsToUpdate.clear();
+            ProjectTriggerHandler.allowModifyIssueCount = false;
         }
     }
 

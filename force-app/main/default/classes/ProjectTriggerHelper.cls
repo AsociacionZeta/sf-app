@@ -6,4 +6,16 @@ public with sharing class ProjectTriggerHelper {
             
         }
     }
+    public static void setDefaultValues (acn__Project__c newProject){
+        newProject.acn__IssuesCount__c = 0;
+    }
+
+    public static void restrictModifyIssuesCount (acn__Project__c newProject, acn__Project__c oldProject){
+        if (!ProjectTriggerHandler.allowModifyIssueCount) {
+            if (newProject.acn__IssuesCount__c != oldProject.acn__IssuesCount__c) {
+
+                newProject.addError(Label.ModifyProjectIssuesCountError);                
+            }            
+        }
+    }
 }
