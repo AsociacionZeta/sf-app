@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Project__c.IssuesCount__c</members>
+		<members>Project__c-Project Layout</members>
+		<members>Project__c.Category__c</members>
+		<members>Project__c.Keywords__c</members>
+		<members>Sprint__c.Keywords__c</members>
 		<name>CustomField</name>
 	</types>
 	<types>
 		<members>Project__c-Project Layout</members>
+		<members>Sprint__c-Sprint Layout</members>
 		<name>Layout</name>
 	</types>
 	<version>54.0</version>
