@@ -29,15 +29,15 @@ public with sharing class ProjectTriggerTest{
         newProject.acn__Description__c = 'Test descrption';
         newProject.acn__Manager__c = Contact.Id;
         newProject.acn__StartDate__c = System.today();
-        newProject.acn__IssuesCount__c = 1;
 
         Test.startTest();
         insert newProject;
         Test.stopTest();
 
-        acn__Project__c projectResult = [Select Id, acn__Code__c from acn__Project__c where Id = :newProject.Id];
+        acn__Project__c projectResult = [Select Id, acn__Code__c, acn__IssuesCount__c from acn__Project__c where Id = :newProject.Id];
 
         System.assertEquals('TESTCODE', projectResult.acn__Code__c);
+        System.assertEquals(0, projectResult.acn__IssuesCount__c);
     }
 
     @isTest
@@ -47,7 +47,6 @@ public with sharing class ProjectTriggerTest{
         newProject.acn__Description__c = 'Test descrption';
         newProject.acn__Manager__c = Contact.Id;
         newProject.acn__StartDate__c = System.today();
-        newProject.acn__IssuesCount__c = 1;
 
         Test.startTest();
         insert newProject;
@@ -58,6 +57,25 @@ public with sharing class ProjectTriggerTest{
         acn__Project__c projectResult = [Select Id, acn__Code__c from acn__Project__c where Id = :newProject.Id];
 
         System.assertEquals('NEWTESTCODE', projectResult.acn__Code__c);
+    }
+
+    @isTest
+    public static void testRestrictModifyIssuesCount(){
+        acn__Project__c newProject = new acn__Project__c();
+        newProject.acn__Code__c = 'testcode';
+        newProject.acn__Description__c = 'Test descrption';
+        newProject.acn__Manager__c = Contact.Id;
+        newProject.acn__StartDate__c = System.today();
+
+        Test.startTest();
+        try {
+            insert newProject;
+            newProject.acn__IssuesCount__c = 1;
+            update newProject;
+            System.assert(false, 'Esta linea no deberia ejecutarse');            
+        } catch (Exception e) {
+            system.assert(e.getMessage().contains(Label.ModifyProjectIssuesCountError), e.getMessage());
+        } 
     }
 
 }
