@@ -5,8 +5,15 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
-		<members>ProjectManagerHome</members>
-		<name>FlexiPage</name>
+		<members>Project__c.Category__c</members>
+		<members>Project__c.Keywords__c</members>
+		<members>Sprint__c.Keywords__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>Project__c-Project Layout</members>
+		<members>Sprint__c-Sprint Layout</members>
+		<name>Layout</name>
 	</types>
 	<version>54.0</version>
 </Package>
