@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
-	<description>Gestor de Proyectos</description>
-	<isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
-	<isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-	<label>Project Manager</label>
-	<navType>Standard</navType>
-	<uiType>Lightning</uiType>
-	<utilityBar>Projet_Manager_UtilityBar</utilityBar>
-	<actionOverrides><actionName>Tab</actionName><content>ProjectManagerHome</content><formFactor>Large</formFactor><pageOrSobjectType>standard-home</pageOrSobjectType><skipRecordTypeSelect>false</skipRecordTypeSelect><type>Flexipage</type></actionOverrides>
-	<brand><headerColor>#066F74</headerColor><shouldOverrideOrgTheme>true</shouldOverrideOrgTheme></brand>
-	<formFactors>Small</formFactors>
-	<formFactors>Large</formFactors>
-	<tabs>standard-Contact</tabs>
-	<tabs>Project__c</tabs>
-	<tabs>ProjectCollaborator__c</tabs>
-	<tabs>Issue__c</tabs>
-	<tabs>IssueWatcher__c</tabs>
-	<tabs>IssueDependency__c</tabs>
-	<tabs>Sprint__c</tabs>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <content>ProjectManagerHome</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+    </actionOverrides>
+    <brand>
+        <headerColor>#066F74</headerColor>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <description>Gestor de Proyectos</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Project Manager</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>Project__c</tabs>
+    <tabs>ProjectCollaborator__c</tabs>
+    <tabs>Issue__c</tabs>
+    <tabs>IssueWatcher__c</tabs>
+    <tabs>IssueDependency__c</tabs>
+    <tabs>Sprint__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Projet_Manager_UtilityBar</utilityBar>
 </CustomApplication>
