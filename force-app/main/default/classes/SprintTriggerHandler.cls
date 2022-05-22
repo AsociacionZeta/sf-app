@@ -50,6 +50,7 @@ public with sharing class SprintTriggerHandler extends TriggerHandler{
         acn__Sprint__c oldSprint = (acn__Sprint__c) oldRecord;
         List<acn__Sprint__c> projectSprints = sprintByProjectMap.get(newSprint.acn__Project__c);
         SprintTriggerHelper.validateSprintStatus(newSprint, oldSprint, projectSprints);
+        SprintTriggerHelper.setEndDate(newSprint, oldSprint);
     }
 
     public void getProjectsSprintsData(Set<Id> projectIds){

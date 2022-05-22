@@ -15,4 +15,10 @@ public with sharing class SprintTriggerHelper{
         }
     }
 
+    public static void setEndDate(acn__Sprint__c newSprint, acn__Sprint__c oldSprint){
+        if(newSprint.acn__Status__c != oldSprint.acn__Status__c && newSprint.acn__Status__c == 'Done'){
+            newSprint.acn__EndDate__c = system.today();
+        }
+    }
+
 }
