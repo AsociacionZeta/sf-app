@@ -9,6 +9,7 @@
 deploy-options.json
 .husky
 .vscode
+.manifest/
 
 
 # LWC VSCode autocomplete
