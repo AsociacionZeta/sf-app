@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<caseSensitive>false</caseSensitive>
+	<description>Campo formado por la concatenacion del campo Status y Change To para evitar duplicados</description>
+	<externalId>false</externalId>
+	<fullName>UniqueKey__c</fullName>
+	<label>Unique Key</label>
+	<length>255</length>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Text</type>
+	<unique>true</unique>
+</CustomField>

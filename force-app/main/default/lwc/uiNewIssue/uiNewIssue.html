@@ -148,29 +148,6 @@
                                                onselect={handleSelect}
                                                onremove={handleRemove}></c-ui-lookup-input>
                         </lightning-layout-item>
-                        <template if:true={editMode}>
-                            <lightning-layout-item size="6"
-                                                   padding="horizontal-small">
-                                <c-ui-search-input name={issueFields.Status}
-                                                   data-name={issueFields.Status}
-                                                   label={labels.Status}
-                                                   value={record.fields.acn__Status__c}
-                                                   values={statusOptions}
-                                                   required="true"
-                                                   onselect={handleSelect}
-                                                   onremove={handleRemove}></c-ui-search-input>
-                            </lightning-layout-item>
-                            <lightning-layout-item size="6"
-                                                   padding="horizontal-small">
-                                <c-ui-search-input name={issueFields.Resolution}
-                                                   data-name={issueFields.Resolution}
-                                                   label={labels.Resolution}
-                                                   value={record.fields.acn__Resolution__c}
-                                                   values={resolutionOptions}
-                                                   onselect={handleSelect}
-                                                   onremove={handleRemove}></c-ui-search-input>
-                            </lightning-layout-item>
-                        </template>
                     </lightning-layout>
                 </template>
             </div>

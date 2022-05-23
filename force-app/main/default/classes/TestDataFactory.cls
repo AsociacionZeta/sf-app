@@ -39,7 +39,6 @@ public with sharing class TestDataFactory {
         newIssue.acn__Headline__c = name;
         newIssue.acn__AssignedTo__c = contactId;
         newIssue.acn__Project__c = projectId;
-        newIssue.acn__Status__c = 'Opened';
         newIssue.acn__StartDate__c = system.today();
         newIssue.acn__EstimatedTime__c = 10;
         newIssue.acn__OpenedBy__c = contactId;
@@ -53,6 +52,24 @@ public with sharing class TestDataFactory {
         newProjectColaborator.acn__Project__c = projectId;
         newProjectColaborator.acn__Role__c = 'Desarrollador';
         return newProjectColaborator;
+    }
+
+    public static acn__IssueStatus__c createIssueStatus(String name, Id projectId, String type, Boolean initial){
+        acn__IssueStatus__c newIssueStatus = new acn__IssueStatus__c ();
+        newIssueStatus.Name = name;
+        newIssueStatus.acn__Active__c = true;
+        newIssueStatus.acn__Initial__c = initial;
+        newIssueStatus.acn__Project__c = projectId;
+        newIssueStatus.acn__Type__c = type;
+        return newIssueStatus;
+    }
+
+    public static acn__IssueStatusOrder__c createIssueStatusOrder(Id statusId, Id changeToId, Id assignToId){
+        acn__IssueStatusOrder__c newIssueStatusOrder = new acn__IssueStatusOrder__c ();
+        newIssueStatusOrder.acn__Status__c = statusId;
+        newIssueStatusOrder.acn__ChangeTo__c = changeToId;
+        newIssueStatusOrder.acn__AssignTo__c = assignToId;
+        return newIssueStatusOrder;
     }
     
 
