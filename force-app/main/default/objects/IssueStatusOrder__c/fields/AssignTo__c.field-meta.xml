@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>SetNull</deleteConstraint>
+	<description>Campo para indicar a quien se le asignara la issue cuando cambie al estado de destino</description>
+	<externalId>false</externalId>
+	<fullName>AssignTo__c</fullName>
+	<label>Assign To</label>
+	<referenceTo>Contact</referenceTo>
+	<relationshipLabel>Issue Statuses Order</relationshipLabel>
+	<relationshipName>Issue_Statuses_Order</relationshipName>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

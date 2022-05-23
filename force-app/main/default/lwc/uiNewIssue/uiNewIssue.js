@@ -60,8 +60,7 @@ import ISSUE_PRIORITY_FIELD from '@salesforce/schema/Issue__c.Priority__c';
 import ISSUE_PROJECT_FIELD from '@salesforce/schema/Issue__c.Project__c';
 import ISSUE_RECORD_TYPE_FIELD from '@salesforce/schema/Issue__c.RecordTypeId';
 import ISSUE_SPRINT_FIELD from '@salesforce/schema/Issue__c.Sprint__c';
-import ISSUE_RESOLUTION_FIELD from '@salesforce/schema/Issue__c.Resolution__c';
-import ISSUE_STATUS_FIELD from '@salesforce/schema/Issue__c.Status__c';
+
 
 // PROJECT SCHEMA IMPORTS
 import PROJECT_OBJ from '@salesforce/schema/Project__c';
@@ -113,8 +112,6 @@ const LABELS = {
     EstimatedTime: ESTIMATED_TIME_LBL,
     RequiredEstimatedTimeError: REQUIRED_ESTIMATED_TIME_ERROR_LBL,
     WrongEstimatedTimeFormatError: WRONG_ESTIMATED_TIME_FORMAT_ERROR_LBL,
-    Status: STATUS_LBL,
-    Resolution: RESOLUTION_LBL,
 };
 
 const PROJECT_FIELDS = [
@@ -160,8 +157,7 @@ const ISSUE_FIELDS = {
     Project: ISSUE_PROJECT_FIELD.fieldApiName,
     RecordTypeId: ISSUE_RECORD_TYPE_FIELD.fieldApiName,
     Sprint: ISSUE_SPRINT_FIELD.fieldApiName,
-    Resolution: ISSUE_RESOLUTION_FIELD.fieldApiName,
-    Status: ISSUE_STATUS_FIELD.fieldApiName
+    Resolution: ISSUE_RESOLUTION_FIELD.fieldApiName
 };
 
 const CANCEL_BUTTON = {
@@ -248,14 +244,10 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
     @track editMode = false;
     @track recordTypeOptions = [];
     @track priorityOptions = [];
-    @track resolutionOptions = [];
-    @track statusOptions = [];
 
     labels = LABELS;
     recordTypes = [];
     priorities = [];
-    resolutions = [];
-    statuses = [];
 
     async connectedCallback() {
         console.log(this.name + ' connectedCallback()');
@@ -267,7 +259,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             await this.getRecordTypes();
             await this.getPriorities();
             if (this.editMode) {
-                await this.getStatuses();
                 await this.getResolutions();
                 await this.queryIssue();
                 this.sprintDisabled = false;
@@ -277,7 +268,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             } else {
                 this.title = LABELS.NewIssue;
                 this.record.fields[ISSUE_FIELDS.OpenedBy] = this.userContactId;
-                this.record.fields[ISSUE_FIELDS.Status] = 'Opened';
                 this.record.fields[ISSUE_FIELDS.StartDate] = new Date().toISOString().split('T')[0];
                 this.loading = false;
             }
@@ -427,9 +417,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             ISSUE_FIELDS.EstimatedTime,
             ISSUE_FIELDS.Priority,
         ];
-        if(this.editMode){
-            requiredFields.push(ISSUE_FIELDS.Status);
-        }
         let valid = true;
         const footer = DOMUtils.queryByDataName(this, 'footer');
         for (const field of requiredFields) {
@@ -563,19 +550,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                 this.resolutionOptions.push({
                     value: resolution.value,
                     label: resolution.label,
-                });
-            }
-        }
-    }
-
-    async getStatuses() {
-        console.log(this.name + ' getStatuses()');
-        this.statuses = await SchemaUtils.getPicklistValues(ISSUE_OBJ.objectApiName, ISSUE_FIELDS.Status);
-        for (const status of this.statuses) {
-            if (status.active) {
-                this.statusOptions.push({
-                    value: status.value,
-                    label: status.label,
                 });
             }
         }

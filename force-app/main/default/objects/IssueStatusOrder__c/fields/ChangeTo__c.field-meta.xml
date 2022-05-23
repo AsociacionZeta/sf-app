@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>Restrict</deleteConstraint>
+	<description>Estado de destino</description>
+	<externalId>false</externalId>
+	<fullName>ChangeTo__c</fullName>
+	<label>Change To</label>
+	<referenceTo>IssueStatus__c</referenceTo>
+	<relationshipLabel>Issue Statuses Order (Change To)</relationshipLabel>
+	<relationshipName>Issue_Statuses_Order1</relationshipName>
+	<required>true</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>
