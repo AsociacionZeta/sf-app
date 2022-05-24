@@ -178,6 +178,7 @@ export default class NewIssueStatusOrder extends LightningElement {
                     this.record = Database.createSObject(ISSUE_STATUS_ORDER_OBJ.objectApiName, this.record);
                     window.history.back();
                 } catch (error) {
+                    this.loading = false;
                     const err = ErrorManager.getError(error);
                     ToastManager.showErrorToast(this, LABELS.Error, err.message);
                 }
