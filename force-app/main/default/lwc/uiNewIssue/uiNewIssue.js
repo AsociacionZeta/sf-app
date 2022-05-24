@@ -5,8 +5,6 @@ import Database from 'c/classDatabase';
 import ToastManager from 'c/classToastManager';
 import ErrorManager from 'c/classErrorManager';
 import EventManager from 'c/classEventManager';
-import CoreUtils from 'c/classCoreUtils';
-import StrUtils from 'c/classStrUtils';
 import QuickActionUtils from 'c/classQuickActionUtils';
 import UserInfo from 'c/classUserInfo';
 import SchemaUtils from 'c/classSchemaUtils';
@@ -14,7 +12,6 @@ import URLUtils from 'c/classURLUtils';
 import DOMUtils from 'c/classDOMUtils';
 import Validator from 'c/classValidator';
 import DateTimeUtils from 'c/classDateTimeUtils';
-import NavigationService from 'c/classNavigationService';
 
 // LABELS IMPORT
 import SAVE_LBL from '@salesforce/label/c.Save';
@@ -39,8 +36,6 @@ import SPRINT_LBL from '@salesforce/label/c.Sprint';
 import ESTIMATED_TIME_LBL from '@salesforce/label/c.EstimatedTime';
 import REQUIRED_ESTIMATED_TIME_ERROR_LBL from '@salesforce/label/c.RequiredEstimatedTimeError';
 import WRONG_ESTIMATED_TIME_FORMAT_ERROR_LBL from '@salesforce/label/c.WrongEstimatedTimeFormatError';
-import STATUS_LBL from '@salesforce/label/c.Status';
-import RESOLUTION_LBL from '@salesforce/label/c.Resolution';
 
 // ISSUE SCHEMA IMPORTS
 import ISSUE_OBJ from '@salesforce/schema/Issue__c';
@@ -157,7 +152,6 @@ const ISSUE_FIELDS = {
     Project: ISSUE_PROJECT_FIELD.fieldApiName,
     RecordTypeId: ISSUE_RECORD_TYPE_FIELD.fieldApiName,
     Sprint: ISSUE_SPRINT_FIELD.fieldApiName,
-    Resolution: ISSUE_RESOLUTION_FIELD.fieldApiName
 };
 
 const CANCEL_BUTTON = {
@@ -537,19 +531,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                     label: priority.label,
                     iconName: PRIORITY_ICONS[priority.value],
                     altText: LABELS.Priority,
-                });
-            }
-        }
-    }
-
-    async getResolutions() {
-        console.log(this.name + ' getResolutions()');
-        this.resolutions = await SchemaUtils.getPicklistValues(ISSUE_OBJ.objectApiName, ISSUE_FIELDS.Resolution);
-        for (const resolution of this.resolutions) {
-            if (resolution.active) {
-                this.resolutionOptions.push({
-                    value: resolution.value,
-                    label: resolution.label,
                 });
             }
         }

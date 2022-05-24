@@ -1,0 +1,72 @@
+<template>
+    <section role="dialog"
+             tabindex="-1"
+             aria-modal="true"
+             aria-labelledby="modal-heading-01"
+             class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <c-ui-quick-action-header name="header"
+                                      title={title}
+                                      resize={resizable}
+                                      onresize={handleResize}></c-ui-quick-action-header>
+            <div class="slds-modal__content slds-var-p-around_medium">
+                <template if:true={loading}>
+                    <c-ui-spinner></c-ui-spinner>
+                </template>
+                <template if:false={loading}>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="horizontal-small"
+                                               size="6">
+                            <c-ui-lookup-input name={fields.StatusId}
+                                               data-name={fields.StatusId}
+                                               object-api-name={statusLookup.obj}
+                                               icon-name={statusLookup.iconName}
+                                               where-conditions={statusLookup.where}
+                                               fields={statusLookup.fields}
+                                               read-only="true"
+                                               label={labels.Status}
+                                               record-id={record.fields.acn__Status__c}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="horizontal-small"
+                                               size="6">
+                            <c-ui-lookup-input name={fields.ChangeToId}
+                                               data-name={fields.ChangeToId}
+                                               object-api-name={changeToLookup.obj}
+                                               icon-name={changeToLookup.iconName}
+                                               where-conditions={changeToLookup.where}
+                                               fields={changeToLookup.fields}
+                                               required="true"
+                                               message-when-value-missing={labels.RequiredChangeToStatusError}
+                                               label={labels.ChangeTo}
+                                               record-id={record.fields.acn__ChangeTo__c}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="horizontal-small"
+                                               size="6">
+                            <c-ui-lookup-input name={fields.AssignId}
+                                               data-name={fields.AssignId}
+                                               object-api-name={assignedToLookup.obj}
+                                               icon-name={assignedToLookup.iconName}
+                                               where-conditions={assignedToLookup.where}
+                                               fields={assignedToLookup.fields}
+                                               label={labels.AssignTo}
+                                               record-id={record.fields.acn__AssignTo__c}
+                                               onselect={handleSelect}
+                                               onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </div>
+            <c-ui-quick-action-footer name="footer"
+                                      data-name="footer"
+                                      buttons={buttons}
+                                      onbuttonclick={handleClick}>
+            </c-ui-quick-action-footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"
+         role="presentation"></div>
+</template>
