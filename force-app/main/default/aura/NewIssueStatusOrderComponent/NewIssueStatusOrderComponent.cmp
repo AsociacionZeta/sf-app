@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,force:lightningQuickAction, force:hasSObjectName"
+                access="global">
+    <c:uiNewIssueStatusOrder recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"></c:uiNewIssueStatusOrder>
+</aura:component>
