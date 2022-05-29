@@ -21,6 +21,7 @@ import CHANGE_TO_LBL from '@salesforce/label/c.ChangeTo';
 import STATUS_LBL from '@salesforce/label/c.Status';
 import ASSIGN_TO_LBL from '@salesforce/label/c.AssignTo';
 import REQUIRED_CHANGE_TO_STATUS_ERROR_LBL from '@salesforce/label/c.RequiredChangeToStatusError';
+import TO_LAST_ASSIGNMENT_LBL from '@salesforce/label/c.ToLastAssignment';
 
 // ISSUE STATUS SCHEMA IMPORTS
 import ISSUE_STATUS_OBJ from '@salesforce/schema/IssueStatus__c';
@@ -36,6 +37,7 @@ import ISSUE_STATUS_ORDER_NAME_FIELD from '@salesforce/schema/IssueStatusOrder__
 import ISSUE_STATUS_ORDER_ASSIGN_TO_FIELD from '@salesforce/schema/IssueStatusOrder__c.AssignTo__c';
 import ISSUE_STATUS_ORDER_CHANGE_TO_FIELD from '@salesforce/schema/IssueStatusOrder__c.ChangeTo__c';
 import ISSUE_STATUS_ORDER_STATUS_FIELD from '@salesforce/schema/IssueStatusOrder__c.Status__c';
+import ISSUE_STATUS_ORDER_LAST_ASSIGNMENT_FIELD from '@salesforce/schema/IssueStatusOrder__c.ToLastAssignment__c';
 
 // CONTACT SCHEMA IMPORTS
 import CONTACT_OBJ from '@salesforce/schema/Contact';
@@ -62,6 +64,7 @@ const LABELS = {
     AssignTo: ASSIGN_TO_LBL,
     RequiredChangeToStatusError: REQUIRED_CHANGE_TO_STATUS_ERROR_LBL,
     Error: ERROR_LBL,
+    ToLastAssignment: TO_LAST_ASSIGNMENT_LBL,
 };
 
 const ISSUE_STATUS_ORDER_FIELDS = {
@@ -70,6 +73,7 @@ const ISSUE_STATUS_ORDER_FIELDS = {
     AssignId: ISSUE_STATUS_ORDER_ASSIGN_TO_FIELD.fieldApiName,
     ChangeToId: ISSUE_STATUS_ORDER_CHANGE_TO_FIELD.fieldApiName,
     StatusId: ISSUE_STATUS_ORDER_STATUS_FIELD.fieldApiName,
+    ToLastAssingment: ISSUE_STATUS_ORDER_LAST_ASSIGNMENT_FIELD.fieldApiName,
 };
 
 const ISSUE_STATUS_FIELDS = {
@@ -141,8 +145,8 @@ export default class NewIssueStatusOrder extends LightningElement {
         iconName: 'standard:contact',
         where: [],
         fields: Object.values(CONTACT_FIELDS),
+        disabled: false,
     };
-
     labels = LABELS;
     fields = ISSUE_STATUS_ORDER_FIELDS;
 
@@ -192,6 +196,21 @@ export default class NewIssueStatusOrder extends LightningElement {
         console.log(this.name + ' handleResize()');
         const detail = EventManager.getEventDetail(event);
         QuickActionUtils.resize(this, detail.style);
+    }
+
+    handleChange(event) {
+        console.log(this.name + ' handleChange()');
+        const source = EventManager.getSource(event);
+        const detail = EventManager.getEventDetail(event);
+        const dataset = EventManager.getEventDataset(event);
+        const fields = Object.values(ISSUE_STATUS_ORDER_FIELDS);
+        if (fields.includes(source)) {
+            if (detail.hasOwnProperty('checked')) {
+                this.assignedToLookup.disabled = detail.checked;
+                this.record.fields[source] = detail.checked;
+            }
+        }
+        this.validate();
     }
 
     handleSelect(event) {
@@ -305,6 +324,7 @@ export default class NewIssueStatusOrder extends LightningElement {
                 this.record = Database.createSObject(ISSUE_STATUS_ORDER_OBJ.objectApiName, result[0]);
                 this.record.fields[ISSUE_STATUS_ORDER_FIELDS.StatusId] = this.statusId;
                 this.title = LABELS.Edit + ' ' + this.record.fields[ISSUE_STATUS_ORDER_FIELDS.Name];
+                this.assignedToLookup.disabled = this.record.fields[ISSUE_STATUS_ORDER_FIELDS.ToLastAssingment];
             }
         } catch (error) {
             const err = ErrorManager.getError(error);

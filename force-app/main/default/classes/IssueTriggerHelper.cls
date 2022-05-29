@@ -50,7 +50,7 @@ public with sharing class IssueTriggerHelper {
     }
 
     public static void validateStatus(acn__Issue__c newIssue, acn__Issue__c oldIssue, Map<Id, acn__IssueStatus__c> statusFromProject, Set<Id> changeToStatuses) {
-        if (newIssue.acn__Status__c != oldIssue.acn__Status__c) {
+        if (newIssue.acn__Status__c != oldIssue.acn__Status__c && statusFromProject != null) {
             acn__IssueStatus__c newStatus = statusFromProject.get(newIssue.acn__Status__c);
             if (newStatus == null) {
                 newIssue.addError(Label.IssueStatusNotbelongToProjectError);
@@ -67,9 +67,19 @@ public with sharing class IssueTriggerHelper {
     public static void assingIssue(acn__Issue__c newIssue, acn__Issue__c oldIssue, Map<Id, acn__IssueStatusOrder__c> orderByChangeTo) {
         if (newIssue.acn__Status__c != oldIssue.acn__Status__c) {
             acn__IssueStatusOrder__c order = orderByChangeTo.get(newIssue.acn__Status__c);
-            if (order != null && order.acn__AssignTo__c != null) {
-                newIssue.acn__AssignedTo__c = order.acn__AssignTo__c;
+            if(order != null){
+                if (order.acn__AssignTo__c != null) {
+                    newIssue.acn__AssignedTo__c = order.acn__AssignTo__c;
+                } else if(order.acn__ToLastAssignment__c && newIssue.acn__PreviousAssignment__c != null){
+                    newIssue.acn__AssignedTo__c = newIssue.acn__PreviousAssignment__c;
+                }
             }
+        }
+    }
+
+    public static void setPreviousAssignment(acn__Issue__c newIssue, acn__Issue__c oldIssue) {
+        if (newIssue.acn__AssignedTo__c != oldIssue.acn__AssignedTo__c) {
+            newIssue.acn__PreviousAssignment__c = oldIssue.acn__AssignedTo__c;
         }
     }
 

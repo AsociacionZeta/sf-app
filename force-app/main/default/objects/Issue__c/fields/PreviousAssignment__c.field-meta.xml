@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deleteConstraint>Restrict</deleteConstraint>
+	<description>Contacto al que se le ha asignado la tarea</description>
+	<externalId>false</externalId>
+	<fullName>PreviousAssignment__c</fullName>
+	<label>Previous Assignment</label>
+	<referenceTo>Contact</referenceTo>
+	<relationshipLabel>Issues2</relationshipLabel>
+	<relationshipName>Issues2</relationshipName>
+	<required>false</required>
+	<trackTrending>false</trackTrending>
+	<type>Lookup</type>
+</CustomField>

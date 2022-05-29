@@ -55,7 +55,18 @@
                                                label={labels.AssignTo}
                                                record-id={record.fields.acn__AssignTo__c}
                                                onselect={handleSelect}
+                                               read-only={assignedToLookup.disabled}
                                                onremove={handleRemove}></c-ui-lookup-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="horizontal-small"
+                                               size="6">
+                            <lightning-input type="checkbox"
+                                             label={labels.ToLastAssignment}
+                                             name={fields.ToLastAssingment}
+                                             data-name={fields.ToLastAssingment}
+                                             checked={record.fields.acn__PreviousAssignment__c}
+                                             class="slds-m-top_large"
+                                             onchange={handleChange}></lightning-input>
                         </lightning-layout-item>
                     </lightning-layout>
                 </template>

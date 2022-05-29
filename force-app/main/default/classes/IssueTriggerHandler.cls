@@ -78,6 +78,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler {
         if (newIssue.acn__Project__c != oldIssue.acn__Project__c) {
             IssueTriggerHelper.setIssueName(newIssue, project);
         }
+        IssueTriggerHelper.setPreviousAssignment(newIssue, oldIssue);
         IssueTriggerHelper.validateStatus(newIssue, oldIssue, statusFromProject, statusOrderByChangeTo.keySet());
         IssueTriggerHelper.assingIssue(newIssue, oldIssue, statusOrderByChangeTo);
         IssueTriggerHelper.preventChangeOpenedBy(newIssue, oldIssue);
