@@ -253,7 +253,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             await this.getRecordTypes();
             await this.getPriorities();
             if (this.editMode) {
-                await this.getResolutions();
                 await this.queryIssue();
                 this.sprintDisabled = false;
                 this.parentIssueDisabled = false;

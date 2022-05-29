@@ -35,9 +35,9 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
     @api searchTerm = undefined;
     @api placeholder = LABELS.Search + '...';
     @api limit = 10;
-    @api readOnly = false;
     @api clearOnSelect = false;
 
+    @track _readOnly = false;
     @track _recordId;
     @track selectedName;
     @track _records;
@@ -56,7 +56,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
             for (const val of value) {
                 result.push({
                     Id: val.Id,
-                    Name: SchemaUtils.getSObjectFieldValue(val, this.fieldName) 
+                    Name: SchemaUtils.getSObjectFieldValue(val, this.fieldName)
                 });
             }
         }
@@ -77,6 +77,15 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         } else {
             this.getRecord();
         }
+    }
+
+    @api
+    get readOnly() {
+        return this._readOnly;
+    }
+    set readOnly(value) {
+        this.setAttribute('readOnly', value);
+        this._readOnly = value;
     }
 
     recordsResultLabel = LABELS.NotRecordsFound;
@@ -200,20 +209,20 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
                 operator: where.operator,
                 value: where.value
             }
-            if (newWhere.value !== undefined && newWhere.value.indexOf('{search}') != -1){
+            if (newWhere.value !== undefined && newWhere.value.indexOf('{search}') != -1) {
                 newWhere.value = newWhere.value.split('{search}').join(this.searchTerm);
                 searchFound = true;
             }
             resultWhere.push(newWhere);
         }
-        if(!searchFound){
+        if (!searchFound) {
             resultWhere.push({
                 field: this.fieldName,
                 operator: 'like',
                 value: '%' + this.searchTerm + '%'
             });
             const whereNumberStr = '' + resultWhere.length;
-            if(this.customLogic && !StrUtils.contains(this.customLogic, whereNumberStr)){
+            if (this.customLogic && !StrUtils.contains(this.customLogic, whereNumberStr)) {
                 this.customLogic = '(' + this.customLogic + ') AND ' + resultWhere.length;
             }
         }
@@ -222,7 +231,7 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
 
     checkRequired() {
         console.log(this.name + ' checkRequired()');
-        if (this.required) {            
+        if (this.required) {
             const input = this.template.querySelector('[data-id="input"]');
             if (!this.isValueSelected && !this.searchTerm)
                 input.setCustomValidity(this.messageWhenValueMissing);
