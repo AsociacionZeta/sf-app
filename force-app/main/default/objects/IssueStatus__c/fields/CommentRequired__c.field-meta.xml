@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<defaultValue>false</defaultValue>
+	<description>Indica si es obligatorio escribir un comentario cuando cambia se establece el estado en la issue</description>
+	<externalId>false</externalId>
+	<fullName>CommentRequired__c</fullName>
+	<label>Comment Required</label>
+	<trackTrending>false</trackTrending>
+	<type>Checkbox</type>
+</CustomField>

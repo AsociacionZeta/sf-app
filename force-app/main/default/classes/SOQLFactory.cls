@@ -1,5 +1,4 @@
 public without sharing class SOQLFactory {
-
 	@AuraEnabled(cacheable = true)
 	public static List<SObject> cachedQuery(String objectApiName, List<String> fields, List<WhereCondition> whereConditions, String customLogic, GroupBy groupBy, OrderBy orderBy, Integer queryLimit) {
 		return query(objectApiName, fields, whereConditions, customLogic, groupBy, orderBy, queryLimit);
@@ -12,15 +11,15 @@ public without sharing class SOQLFactory {
 			system.debug(fields);
 			system.debug(whereConditions);
 			system.debug(customLogic);
-			system.debug(groupBy);
-			system.debug(orderBy);
+			system.debug(groupBy) ;
+			system.debug(orderBy) ;
 			system.debug(queryLimit);
 			if (fields == null)
 				fields = new List<String>();
 			if (!fields.contains('Id') && !fields.contains('id') && groupBy == null)
 				fields.add('Id');
 			Map<String, Schema.SObjectField> objectFieldsMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
-			String query = 'SELECT ' + String.join(fields, ', ')+' FROM ' + objectApiName;
+			String query = 'SELECT ' + String.join(fields, ', ') + ' FROM ' + objectApiName;
 			if (whereConditions != null && whereConditions.size() > 0) {
 				Boolean haveCustomLogic = customLogic != null && !String.isEmpty(customLogic);
 				String whereConditionStr = '';
@@ -33,7 +32,7 @@ public without sharing class SOQLFactory {
 						String condition = whereCondition.field + ' ' + whereCondition.operator + ' ' + conditionValue;
 						whereConditionStr = whereConditionStr.replace(String.valueOf(index + 'a'), condition);
 					} else {
-						Schema.SObjectField sObjectField = objectFieldsMap.get(whereCondition.field.toLowerCase());
+						Schema.SObjectField sObjectField = getSObjectField(objectFieldsMap, whereCondition.field);
 						String condition = whereCondition.field + ' ' + whereCondition.operator + ' ' + getValue(sObjectField, whereCondition.value);
 						if (index == whereConditions.size())
 							whereConditionStr += condition;
@@ -46,7 +45,7 @@ public without sharing class SOQLFactory {
 				if (haveCustomLogic) {
 					for (Integer index = whereConditions.size(); index > 0; index--) {
 						WhereCondition whereCondition = whereConditions[index - 1];
-						Schema.SObjectField sObjectField = objectFieldsMap.get(whereCondition.field.toLowerCase());
+						Schema.SObjectField sObjectField = getSObjectField(objectFieldsMap, whereCondition.field);
 						whereConditionStr = whereConditionStr.replace('&%' + whereCondition.field + '_' + index + 'a%&', getValue(sObjectField, whereCondition.value));
 					}
 				}
@@ -68,7 +67,7 @@ public without sharing class SOQLFactory {
 							String condition = havingCondition.field + ' ' + havingCondition.operator + ' ' + conditionValue;
 							havingConditionsStr = havingConditionsStr.replace(String.valueOf(index + 'a'), condition);
 						} else {
-							Schema.SObjectField sObjectField = objectFieldsMap.get(havingCondition.field.toLowerCase());
+							Schema.SObjectField sObjectField = getSObjectField(objectFieldsMap, havingCondition.field);
 							String condition = havingCondition.field + ' ' + havingCondition.operator + ' ' + getValue(sObjectField, havingCondition.value);
 							if (index == groupBy.havingCoditions.size())
 								havingConditionsStr += condition;
@@ -79,7 +78,7 @@ public without sharing class SOQLFactory {
 					if (haveCustomLogic) {
 						for (Integer index = groupBy.havingCoditions.size(); index > 0; index--) {
 							WhereCondition havingCondition = groupBy.havingCoditions[index - 1];
-							Schema.SObjectField sObjectField = objectFieldsMap.get(havingCondition.field.toLowerCase());
+							Schema.SObjectField sObjectField = getSObjectField(objectFieldsMap, havingCondition.field);
 							havingConditionsStr = havingConditionsStr.replace('&%' + havingCondition.field + '_' + index + 'a%&', getValue(sObjectField, havingCondition.value));
 						}
 					}
@@ -87,7 +86,7 @@ public without sharing class SOQLFactory {
 				}
 			}
 			if (orderBy != null && orderBy.fields != null && orderBy.fields.size() > 0) {
-				query += ' ORDER BY ' + String.join(orderBy.fields, ', ')+' ' + orderBy.order;
+				query += ' ORDER BY ' + String.join(orderBy.fields, ', ') + ' ' + orderBy.order;
 			}
 			if (queryLimit != null && queryLimit > 0) {
 				query += ' LIMIT ' + queryLimit;
@@ -97,6 +96,28 @@ public without sharing class SOQLFactory {
 			return Database.query(query);
 		} catch (Exception e) {
 			throw AuraUtils.AuraException('SOQLFactory', e, null);
+		}
+	}
+
+	private static Schema.SObjectField getSObjectField(Map<String, Schema.SObjectField> objectFieldsMap, String fieldName) {
+		if (fieldName.contains('.')) {
+			fieldName = fieldName.replace('__r', '__c').toLowerCase();
+			List<String> splits = fieldName.split('\\.');
+			Map<String, Schema.SObjectField> fieldMap = objectFieldsMap;
+			for(String split : splits){
+				Schema.DescribeFieldResult field = fieldMap.get(split).getDescribe();
+				if(field.getReferenceTo() != null && field.getReferenceTo().size() > 0){
+					if(field.getReferenceTo().size() == 1){
+						String relatedTo = '' + field.getReferenceTo()[0];
+						fieldMap = Schema.getGlobalDescribe().get(relatedTo).getDescribe().fields.getMap();
+					}
+				} else {
+					return fieldMap.get(split);
+				}
+			}
+			return null;
+		} else {
+			return objectFieldsMap.get(fieldName.toLowerCase());
 		}
 	}
 
@@ -111,12 +132,12 @@ public without sharing class SOQLFactory {
 			return 'null';
 		if (datatype == 'number' || datatype == 'double' || datatype == 'integer' || datatype == 'long' || datatype == 'decimal' || datatype == 'date' || datatype == 'datetime' || datatype == 'boolean') {
 			if (value instanceof List<Object>)
-				result = '(' + String.join(transformList((List<Object>)value, false), ', ')+')';
+				result = '(' + String.join(transformList((List<Object>)value, false), ', ') + ')';
 			else
 				result = String.valueOf(value);
 		} else {
 			if (value instanceof List<Object>)
-				result = '(' + String.join(transformList((List<Object>)value, true), ', ')+')';
+				result = '(' + String.join(transformList((List<Object>)value, true), ', ') + ')';
 			else
 				result = '\'' + value + '\'';
 		}
@@ -152,4 +173,5 @@ public without sharing class SOQLFactory {
 		}
 		return customLogic;
 	}
+
 }

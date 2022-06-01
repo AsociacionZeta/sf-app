@@ -44,7 +44,7 @@ export default class StrUtils {
      * 
      * @returns {Boolean} true if "strToCheck" exists on "str", false in otherwise
      */
-    static containsIgnorecase(str, strToCheck) {
+    static containsIgnoreCase(str, strToCheck) {
         return str.toLowerCase().indexOf(strToCheck.toLowerCase()) !== -1;
     }
 

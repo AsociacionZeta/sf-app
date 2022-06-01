@@ -19,25 +19,25 @@ export default class SchemaUtils extends LightningElement {
      * 
      * @returns {Promise<Object>} Return a promise with the SObject Data.
      */
-    static describeSObject(objectApiName){
-        return getSObjectInfo({objectApiName: objectApiName});
+    static describeSObject(objectApiName) {
+        return getSObjectInfo({ objectApiName: objectApiName });
     }
 
-    static describeRecordTypes(objectApiName){
-        return getRecordTypesInfo({objectApiName: objectApiName});
+    static describeRecordTypes(objectApiName) {
+        return getRecordTypesInfo({ objectApiName: objectApiName });
     }
 
-    static getSObjectFieldValue(record, fieldName){
+    static getSObjectFieldValue(record, fieldName) {
         const fields = fieldName.split('.');
-        let parent = record;
-        for(const field of fields){
-            if(parent.fields && parent.fields[field]){
-                parent = parent.fields[field];
-            } else if(parent[field]){
-                parent = parent[field];
+        let value = record;
+        for (const field of fields) {
+            if (value.hasOwnProperty('fields')) {
+                value = value.fields[field];
+            } else {
+                value = value[field];
             }
         }
-        return parent;
+        return value;
     }
 
     /**
@@ -47,8 +47,8 @@ export default class SchemaUtils extends LightningElement {
      * 
      * @returns {Promise<Array<Object>>} Return an array promise with the picklist values. { label: xxxxx, value: xxxxx, default: true | false, active: true | false }
      */
-    static getPicklistValues(objectApiName, fieldApiName){
-        return getAllPicklistValues({objectApiName: objectApiName, fieldApiName: fieldApiName});
+    static getPicklistValues(objectApiName, fieldApiName) {
+        return getAllPicklistValues({ objectApiName: objectApiName, fieldApiName: fieldApiName });
     }
 
     /**
@@ -58,8 +58,8 @@ export default class SchemaUtils extends LightningElement {
      * 
      * @returns {Promise<Array<Object>>} Return an array promise with the picklist values. { controlValue1: { valueApiName1: labelName1, valueApiName2: labelName2, ... }, controlValue2: { valueApiName1: labelName1, valueApiName2: labelName2, ... }, ... }
      */
-    static getDependantPicklistValues(objectApiName, fieldApiName){
-        return getDependantPicklistValuesMap({objectApiName: objectApiName, fieldAPIName: fieldApiName});
+    static getDependantPicklistValues(objectApiName, fieldApiName) {
+        return getDependantPicklistValuesMap({ objectApiName: objectApiName, fieldAPIName: fieldApiName });
     }
 
     /**
@@ -68,8 +68,8 @@ export default class SchemaUtils extends LightningElement {
      * 
      * @returns {Promise<String>} Return a String promise with the SObject API Name
      */
-    static getSObjectAPINameFromId(recordId){
-        return getSObjectTypeFromId({recordId: recordId});
+    static getSObjectAPINameFromId(recordId) {
+        return getSObjectTypeFromId({ recordId: recordId });
     }
 
     /**
@@ -79,7 +79,7 @@ export default class SchemaUtils extends LightningElement {
      * @returns {Promise<String>} Return a String promise with the key prefix
      * 
      */
-    static getKeyPrefix(objectApiName){
-        return getKeyPrefix({objectApiName: objectApiName});
+    static getKeyPrefix(objectApiName) {
+        return getKeyPrefix({ objectApiName: objectApiName });
     }
 }

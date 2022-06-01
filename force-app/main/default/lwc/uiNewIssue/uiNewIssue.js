@@ -268,8 +268,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                 this.sprintDisabled = true;
                 this.parentIssueDisabled = true;
                 this.assignToDisabled = true;
-            } else {
-                await this.queryProjectCollaborators();
             }
             this.validate();
         } else {
@@ -323,7 +321,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
             if (detail.value.Id) {
                 this.record.fields[source] = detail.value.Id;
                 if (source === ISSUE_FIELDS.Project) {
-                    await this.queryProjectCollaborators();
                     this.parentIssueLookup.where = [{
                         field: ISSUE_FIELDS.Project,
                         operator: '=',
@@ -489,29 +486,6 @@ export default class NewIssue extends NavigationMixin(LightningElement) {
                     field: PROJECT_ID_FIELD.fieldApiName,
                     operator: 'in',
                     value: projectIds
-                }];
-            }
-        } catch (error) {
-            const err = ErrorManager.getError(error);
-            console.log(err);
-        }
-    }
-
-    async queryProjectCollaborators() {
-        console.log(this.name + ' queryAssignedTo()');
-        const pcQuery = Database.queryBuilder(PROJECT_COLLABORATOR_OBJ.objectApiName, PROJECT_COLLABORATOR_FIELDS);
-        pcQuery.addWhereCondition(PROJECT_COLLABORATOR_PROJECT_FIELD.fieldApiName, '=', this.record.fields[ISSUE_FIELDS.Project]);
-        try {
-            const result = await Database.query(pcQuery);
-            const contactIds = [];
-            for (const record of result) {
-                contactIds.push(record[PROJECT_COLLABORATOR_CONTACT_FIELD.fieldApiName]);
-            }
-            if (contactIds.length > 0) {
-                this.assignedToLookup.where = [{
-                    field: CONTACT_ID_FIELD.fieldApiName,
-                    operator: 'in',
-                    value: contactIds
                 }];
             }
         } catch (error) {

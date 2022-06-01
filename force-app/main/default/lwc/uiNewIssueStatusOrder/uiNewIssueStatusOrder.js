@@ -37,22 +37,8 @@ import ISSUE_STATUS_ORDER_NAME_FIELD from '@salesforce/schema/IssueStatusOrder__
 import ISSUE_STATUS_ORDER_ASSIGN_TO_FIELD from '@salesforce/schema/IssueStatusOrder__c.AssignTo__c';
 import ISSUE_STATUS_ORDER_CHANGE_TO_FIELD from '@salesforce/schema/IssueStatusOrder__c.ChangeTo__c';
 import ISSUE_STATUS_ORDER_STATUS_FIELD from '@salesforce/schema/IssueStatusOrder__c.Status__c';
+import ISSUE_STATUS_ORDER_STATUS_PROJECT_FIELD from '@salesforce/schema/IssueStatusOrder__c.Status__r.Project__c';
 import ISSUE_STATUS_ORDER_LAST_ASSIGNMENT_FIELD from '@salesforce/schema/IssueStatusOrder__c.ToLastAssignment__c';
-
-// CONTACT SCHEMA IMPORTS
-import CONTACT_OBJ from '@salesforce/schema/Contact';
-import CONTACT_ID_FIELD from '@salesforce/schema/Contact.Id';
-import CONTACT_NAME_FIELD from '@salesforce/schema/Contact.Name';
-
-// PROJECT COLLABORATOR SCHEMA IMPORTS
-import PROJECT_COLLABORATOR_OBJ from '@salesforce/schema/ProjectCollaborator__c';
-import PROJECT_COLLABORATOR_ID_FIELD from '@salesforce/schema/ProjectCollaborator__c.Id';
-import PROJECT_COLLABORATOR_NAME_FIELD from '@salesforce/schema/ProjectCollaborator__c.Name';
-import PROJECT_COLLABORATOR_PROJECT_FIELD from '@salesforce/schema/ProjectCollaborator__c.Project__c';
-import PROJECT_COLLABORATOR_CONTACT_FIELD from '@salesforce/schema/ProjectCollaborator__c.Contact__c';
-import PROJECT_COLLABORATOR_CONTACT_ID_FIELD from '@salesforce/schema/ProjectCollaborator__c.Contact__r.Id';
-import PROJECT_COLLABORATOR_CONTACT_NAME_FIELD from '@salesforce/schema/ProjectCollaborator__c.Contact__r.Name';
-import PROJECT_COLLABORATOR_CONTACT_USER_FIELD from '@salesforce/schema/ProjectCollaborator__c.Contact__r.User__c';
 
 const LABELS = {
     Save: SAVE_LBL,
@@ -73,6 +59,7 @@ const ISSUE_STATUS_ORDER_FIELDS = {
     AssignId: ISSUE_STATUS_ORDER_ASSIGN_TO_FIELD.fieldApiName,
     ChangeToId: ISSUE_STATUS_ORDER_CHANGE_TO_FIELD.fieldApiName,
     StatusId: ISSUE_STATUS_ORDER_STATUS_FIELD.fieldApiName,
+    StatusProject: ISSUE_STATUS_ORDER_STATUS_PROJECT_FIELD.fieldApiName,
     ToLastAssingment: ISSUE_STATUS_ORDER_LAST_ASSIGNMENT_FIELD.fieldApiName,
 };
 
@@ -82,23 +69,6 @@ const ISSUE_STATUS_FIELDS = {
     Active: ISSUE_STATUS_ACTIVE_FIELD.fieldApiName,
     Project: ISSUE_STATUS_PROJECT_FIELD.fieldApiName,
 };
-
-const CONTACT_FIELDS = {
-    Id: CONTACT_ID_FIELD.fieldApiName,
-    Name: CONTACT_NAME_FIELD.fieldApiName,
-};
-
-const PROJECT_COLLABORATOR_FIELDS = {
-    Id: PROJECT_COLLABORATOR_ID_FIELD.fieldApiName,
-    Name: PROJECT_COLLABORATOR_NAME_FIELD.fieldApiName,
-    Contact: PROJECT_COLLABORATOR_CONTACT_FIELD.fieldApiName,
-    ContactId: PROJECT_COLLABORATOR_CONTACT_ID_FIELD.fieldApiName,
-    ContactName: PROJECT_COLLABORATOR_CONTACT_NAME_FIELD.fieldApiName,
-    Project: PROJECT_COLLABORATOR_PROJECT_FIELD.fieldApiName,
-    ContactUser: PROJECT_COLLABORATOR_CONTACT_USER_FIELD.fieldApiName,
-};
-
-
 
 const CANCEL_BUTTON = {
     name: "cancel",
@@ -140,13 +110,6 @@ export default class NewIssueStatusOrder extends LightningElement {
         where: [],
         fields: Object.values(ISSUE_STATUS_FIELDS),
     };
-    @track assignedToLookup = {
-        obj: CONTACT_OBJ.objectApiName,
-        iconName: 'standard:contact',
-        where: [],
-        fields: Object.values(CONTACT_FIELDS),
-        disabled: false,
-    };
     labels = LABELS;
     fields = ISSUE_STATUS_ORDER_FIELDS;
 
@@ -156,7 +119,7 @@ export default class NewIssueStatusOrder extends LightningElement {
         this.editMode = this.recordId !== undefined;
         this.getContextData();
         await this.queryIssueStatus();
-        await this.queryProjectCollaborators();
+        //await this.queryProjectCollaborators();
         if (this.editMode) {
             await this.queryIssueStatusOrder();
         } else {
@@ -283,29 +246,6 @@ export default class NewIssueStatusOrder extends LightningElement {
                     field: ISSUE_STATUS_FIELDS.Project,
                     operator: '=',
                     value: this.status.fields[ISSUE_STATUS_FIELDS.Project],
-                }];
-            }
-        } catch (error) {
-            const err = ErrorManager.getError(error);
-            console.log(err);
-        }
-    }
-
-    async queryProjectCollaborators() {
-        console.log(this.name + ' queryProjectCollaborators()');
-        const pcQuery = Database.queryBuilder(PROJECT_COLLABORATOR_OBJ.objectApiName, Object.values(PROJECT_COLLABORATOR_FIELDS));
-        pcQuery.addWhereCondition(PROJECT_COLLABORATOR_PROJECT_FIELD.fieldApiName, '=', this.status.fields[ISSUE_STATUS_FIELDS.Project]);
-        try {
-            const result = await Database.query(pcQuery);
-            const contactIds = [];
-            for (const record of result) {
-                contactIds.push(record[PROJECT_COLLABORATOR_CONTACT_FIELD.fieldApiName]);
-            }
-            if (contactIds.length > 0) {
-                this.assignedToLookup.where = [{
-                    field: CONTACT_ID_FIELD.fieldApiName,
-                    operator: 'in',
-                    value: contactIds
                 }];
             }
         } catch (error) {

@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title={labels.Workflow}
+                    icon-name="utility:tracker">
+        <template for:each={buttons}
+                  for:item="button"
+                  for:index="index">
+            <lightning-button key={button.value}
+                              data-index={index}
+                              variant={button.variant}
+                              label={button.label}
+                              title={button.title}
+                              onclick={handleClick}
+                              class="slds-m-left_x-small"></lightning-button>
+        </template>
+        <template if:true={showDialog}>
+            <section role="dialog"
+                     tabindex="-1"
+                     aria-modal="true"
+                     aria-labelledby="modal-heading-01"
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <c-ui-quick-action-header name="header"
+                                              title={dialog.title}></c-ui-quick-action-header>
+                    <div class="slds-modal__content slds-var-p-around_medium">
+                        <lightning-layout-item size="12">
+                            <c-ui-project-collaborator-input name={issueFields.AssignedTo}
+                                                             data-name={issueFields.AssignedTo}
+                                                             label={labels.AssignedTo}
+                                                             record-id={issue.fields.acn__AssignedTo__c}
+                                                             project-id={issue.fields.acn__Project__c}
+                                                             onremove={handleRemove}
+                                                             onselect={handleSelect}>
+                            </c-ui-project-collaborator-input>
+                        </lightning-layout-item>
+                        <lightning-layout multiple-rows="true">
+                            <template if:true={dialog.showResolution}>
+                                <lightning-layout-item size="12">
+                                    <c-ui-search-input name={issueFields.Resolution}
+                                                       data-name={issueFields.Resolution}
+                                                       label={labels.Resolution}
+                                                       value={issue.fields.acn__Resolution__c}
+                                                       values={resolutionOptions}
+                                                       onselect={handleSelect}
+                                                       icon-name="standard:calibration"
+                                                       onremove={handleRemove}></c-ui-search-input>
+                                </lightning-layout-item>
+                            </template>
+                            <lightning-layout-item size="12">
+                                <lightning-textarea name={issueCommentFields.Body}
+                                                    data-name={issueCommentFields.Body}
+                                                    label={labels.Comment}
+                                                    value={issueComment.fields.acn__Body__c}
+                                                    message-when-value-missing={labels.CommentRequiredError}
+                                                    onchange={handleChange}
+                                                    required="true"></lightning-textarea>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <c-ui-quick-action-footer name="footer"
+                                              data-name="footer"
+                                              buttons={dialog.buttons}
+                                              onbuttonclick={handleClick}>
+                    </c-ui-quick-action-footer>
+                </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"
+                 role="presentation"></div>
+        </template>
+    </lightning-card>
+</template>

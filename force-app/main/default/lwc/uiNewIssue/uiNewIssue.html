@@ -95,19 +95,14 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="9"
                                                padding="horizontal-small">
-                            <c-ui-lookup-input name={issueFields.AssignedTo}
-                                               data-name={issueFields.AssignedTo}
-                                               object-api-name={assignedToLookup.obj}
-                                               icon-name={assignedToLookup.iconName}
-                                               where-conditions={assignedToLookup.where}
-                                               fields={assignedToLookup.fields}
-                                               required="true"
-                                               message-when-value-missing={labels.RequiredAssignedToError}
-                                               label={labels.AssignedTo}
-                                               record-id={record.fields.acn__AssignedTo__c}
-                                               onselect={handleSelect}
-                                               read-only={assignToDisabled}
-                                               onremove={handleRemove}></c-ui-lookup-input>
+                            <c-ui-project-collaborator-input name={issueFields.AssignedTo}
+                                                             data-name={issueFields.AssignedTo}
+                                                             label={labels.AssignedTo}
+                                                             record-id={record.fields.acn__AssignedTo__c}
+                                                             project-id={record.fields.acn__Project__c}
+                                                             onremove={handleRemove}
+                                                             onselect={handleSelect}>
+                            </c-ui-project-collaborator-input>
                         </lightning-layout-item>
                         <lightning-layout-item size="3"
                                                class="slds-p-top_large"

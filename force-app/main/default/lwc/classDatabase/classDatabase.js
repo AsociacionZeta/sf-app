@@ -1,4 +1,4 @@
-import { createRecord, updateRecord, deleteRecord } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord, deleteRecord, getRecordNotifyChange  } from 'lightning/uiRecordApi';
 import queryData from '@salesforce/apex/SOQLFactory.query';
 import cachedQueryData from '@salesforce/apex/SOQLFactory.cachedQuery';
 import createRecords from '@salesforce/apex/DMLUtils.createRecords';
@@ -285,5 +285,9 @@ export default class Database {
      */
     static deleteSF(recordOrId) {
         return deleteRecord(typeof recordOrId === 'string' ? recordOrId : recordOrId.field.Id);
+    }
+
+    static notifyRecordChange(recordId){
+        getRecordNotifyChange([{recordId: recordId}]);
     }
 }
