@@ -49,7 +49,7 @@
 	<actionOverrides><actionName>View</actionName><formFactor>Small</formFactor><type>Default</type></actionOverrides>
 	<nameField>
 		<displayFormat>IC-{000000}</displayFormat>
-		<label>Issue Coment Name</label>
+		<label>Issue Comment Name</label>
 		<type>AutoNumber</type>
 	</nameField>
 </CustomObject>

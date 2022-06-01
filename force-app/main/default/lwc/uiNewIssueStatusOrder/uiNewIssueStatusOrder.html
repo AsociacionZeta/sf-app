@@ -46,17 +46,14 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="horizontal-small"
                                                size="6">
-                            <c-ui-lookup-input name={fields.AssignId}
-                                               data-name={fields.AssignId}
-                                               object-api-name={assignedToLookup.obj}
-                                               icon-name={assignedToLookup.iconName}
-                                               where-conditions={assignedToLookup.where}
-                                               fields={assignedToLookup.fields}
-                                               label={labels.AssignTo}
-                                               record-id={record.fields.acn__AssignTo__c}
-                                               onselect={handleSelect}
-                                               read-only={assignedToLookup.disabled}
-                                               onremove={handleRemove}></c-ui-lookup-input>
+                            <c-ui-project-collaborator-input name={fields.AssignId}
+                                                             data-name={fields.AssignId}
+                                                             label={labels.AssignTo}
+                                                             record-id={record.fields.acn__AssignTo__c}
+                                                             project-id={status.fields.acn__Project__c}
+                                                             onremove={handleRemove}
+                                                             onselect={handleSelect}>
+                            </c-ui-project-collaborator-input>
                         </lightning-layout-item>
                         <lightning-layout-item padding="horizontal-small"
                                                size="6">

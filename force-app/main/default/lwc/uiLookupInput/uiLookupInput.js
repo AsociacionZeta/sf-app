@@ -275,7 +275,6 @@ export default class UiLookupInput extends NavigationMixin(LightningElement) {
         queryBuilder.setWhereConditions(resultWhere).createOrderBy(['LastViewedDate'], 'DESC');
         queryBuilder.setLimit(10);
         Database.query(queryBuilder).then((records) => {
-            console.log(records);
             this.error = undefined;
             this.records = records;
             this.originalRecords = records;

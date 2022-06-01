@@ -139,7 +139,7 @@ public without sharing class IssueTriggerHandler extends TriggerHandler {
                 }
                 statusByProjectMap.get(status.acn__Project__c).put(status.Id, status);
             }
-            allIsueStatusOrderMap = new Map<Id, acn__IssueStatusOrder__c>([Select Id, acn__Status__c, acn__ChangeTo__c, acn__AssignTo__c
+            allIsueStatusOrderMap = new Map<Id, acn__IssueStatusOrder__c>([Select Id, acn__Status__c, acn__ChangeTo__c, acn__AssignTo__c, acn__ToLastAssignment__c
                                                                            from acn__IssueStatusOrder__c
                                                                            where acn__Status__c in:allStatusMap.keySet() OR acn__ChangeTo__c in:allStatusMap.keySet()]);
             changeToOrderByOriginStatusMap = new Map<Id, Map<Id, acn__IssueStatusOrder__c>>();

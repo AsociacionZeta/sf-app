@@ -2,21 +2,24 @@ import { LightningElement, api, track } from 'lwc';
 import EventManager from 'c/classEventManager';
 import CoreUtils from 'c/classCoreUtils';
 
-export default class UiQuickActionFooter extends LightningElement {
-    @api name = 'UiQuickActionFooter';
+export default class QuickActionFooter extends LightningElement {
+    @api name = 'QuickActionFooter';
     @api
     get buttons() {
         return this._buttons;
     }
     set buttons(buttons) {
-        if (buttons)
+        if (buttons) {
             this._buttons = CoreUtils.clone(buttons);
+            this.setAttribute('buttons', this._buttons);
+        }
     }
     @api
     get disabled() {
         return this._buttons;
     }
     set disabled(disabled) {
+        this.setAttribute('disabled', disabled);
         this._disabled = disabled;
         if (this._buttons) {
             for (const button of this._buttons) {
@@ -28,7 +31,7 @@ export default class UiQuickActionFooter extends LightningElement {
     @track _buttons;
     @track _disabled;
 
-    
+
     connectedCallback() {
         console.log(this.name + ' connectedCallback()');
         if (this._buttons && this._disabled !== undefined) {
